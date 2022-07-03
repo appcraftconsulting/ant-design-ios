@@ -8,12 +8,24 @@
 import SwiftUI
 
 public struct Input: TextFieldStyle {
-    var size: Size = .default
-    var systemName: String?
-    var isFocused: Bool
-    var isHovered: Bool = false
+    public let size: Size
+    public let systemName: String?
+    public let isFocused: Bool
+    public let isHovered: Bool
+    
+    public init(
+        size: Size = .default,
+        systemName: String? = nil,
+        isFocused: Bool = false,
+        isHovered: Bool = false
+    ) {
+        self.size = size
+        self.systemName = systemName
+        self.isFocused = isFocused
+        self.isHovered = isHovered
+    }
 
-    func _body(configuration: TextField<Self._Label>) -> some View {
+    public func _body(configuration: TextField<Self._Label>) -> some View {
         HStack {
             if let systemName = systemName {
                 Image(systemName: systemName)

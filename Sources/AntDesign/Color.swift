@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Color {
+public extension Color {
     enum BaseColorPalette: String {
         case red
         case volcano

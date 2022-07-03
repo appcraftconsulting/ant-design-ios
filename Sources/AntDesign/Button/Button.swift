@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct Button: ButtonStyle {
-    enum `Type` {
+    public enum `Type` {
         case primary
         case `default`
         case dashed
@@ -16,8 +16,8 @@ public struct Button: ButtonStyle {
         case link
     }
     
-    enum Shape {
-        enum Content {
+    public enum Shape {
+        public enum Content {
             case icon, title
         }
         
@@ -27,7 +27,7 @@ public struct Button: ButtonStyle {
         case square(Content)
     }
     
-    enum Icon: String {
+    public enum Icon: String {
         case test
         
         var name: String {
@@ -35,16 +35,34 @@ public struct Button: ButtonStyle {
         }
     }
     
-    var type: `Type` = .default
-    var size: Size = .default
-    var shape: Shape = .default
+    public let type: `Type`
+    public let size: Size
+    public let shape: Shape
     
-    var block: Bool = false
-    var danger: Bool = false
-    var ghost: Bool = false
-    var loading: Bool = false
-                    
-    func makeBody(configuration: Configuration) -> some View {
+    public let block: Bool
+    public let danger: Bool
+    public let ghost: Bool
+    public let loading: Bool
+    
+    public init(
+        type: `Type` = .default,
+        size: Size = .default,
+        shape: Shape = .default,
+        block: Bool = false,
+        danger: Bool = false,
+        ghost: Bool = false,
+        loading: Bool = false
+    ) {
+        self.type = type
+        self.size = size
+        self.shape = shape
+        self.block = block
+        self.danger = danger
+        self.ghost = ghost
+        self.loading = loading
+    }
+                                    
+    public func makeBody(configuration: Configuration) -> some View {
         ContentView(
             configuration: configuration,
             type: type,
@@ -57,7 +75,7 @@ public struct Button: ButtonStyle {
         )
     }
     
-    struct ContentView: View {
+    internal struct ContentView: View {
         let configuration: ButtonStyle.Configuration
         @Environment(\.isEnabled) private var isEnabled: Bool
         
@@ -234,7 +252,7 @@ public struct Button: ButtonStyle {
     
     // MARK: - Styles
     
-    struct ContentLabelStyle: LabelStyle {
+    internal struct ContentLabelStyle: LabelStyle {
         let shape: Shape
         let loading: Bool
         let titleShadow: Shadow?

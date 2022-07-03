@@ -7,10 +7,10 @@
 
 import Foundation
 
-enum Size {
+public enum Size {
     case large
     case middle
     case small
     
-    static let `default`: Self = .middle
+    public static let `default`: Self = .middle
 }
