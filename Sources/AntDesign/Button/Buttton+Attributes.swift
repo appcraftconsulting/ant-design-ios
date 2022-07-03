@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Button {
+internal extension Button {
     struct Attributes {
         struct InteractiveColor {
             let pressed: Color

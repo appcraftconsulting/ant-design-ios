@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Button {
+internal extension Button {
     struct Shadow {
         let color: Color
         let offset: CGPoint

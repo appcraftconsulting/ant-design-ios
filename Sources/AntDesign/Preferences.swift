@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum Preferences {
+public enum Preferences {
     // -------- Colors -----------
     // >>> Primary
     static var primaryColorPalette: Color.BaseColorPalette = .blue

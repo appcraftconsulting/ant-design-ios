@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Input: TextFieldStyle {
+public struct Input: TextFieldStyle {
     var size: Size = .default
     var systemName: String?
     var isFocused: Bool

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Button {
+internal extension Button {
     struct LoadingView: View {
         struct LoadingOutlined: SwiftUI.Shape {
             func path(in rect: CGRect) -> Path {

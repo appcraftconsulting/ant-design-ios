@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Button: ButtonStyle {
+public struct Button: ButtonStyle {
     enum `Type` {
         case primary
         case `default`
