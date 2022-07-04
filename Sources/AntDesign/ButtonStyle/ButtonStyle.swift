@@ -1,5 +1,5 @@
 //
-//  Button.swift
+//  ButtonStyle.swift
 //  
 //
 //  Created by François Boulais on 01/07/2022.
@@ -7,88 +7,68 @@
 
 import SwiftUI
 
-public struct Button: ButtonStyle {
-    public enum `Type` {
-        case primary
-        case `default`
-        case dashed
-        case text
-        case link
-    }
+public struct ButtonStyle: SwiftUI.ButtonStyle {    
+    internal let type: ButtonType
+    internal let shape: ButtonShape
+    internal let layout: ButtonLayout
+    internal let size: Size
     
-    public enum Shape {
-        public enum Content {
-            case icon, title
-        }
-        
-        case `default`
-        case round
-        case circle(Content)
-        case square(Content)
-    }
-    
-    public enum Icon: String {
-        case test
-        
-        var name: String {
-            rawValue
-        }
-    }
-    
-    public let type: `Type`
-    public let size: Size
-    public let shape: Shape
-    
-    public let block: Bool
-    public let danger: Bool
-    public let ghost: Bool
-    public let loading: Bool
+    internal let block: Bool
+    internal let ghost: Bool
+    internal let loading: Bool
     
     public init(
-        type: `Type` = .default,
+        type: ButtonType = .default,
+        shape: ButtonShape = .default,
+        layout: ButtonLayout = .default,
         size: Size = .default,
-        shape: Shape = .default,
         block: Bool = false,
-        danger: Bool = false,
         ghost: Bool = false,
         loading: Bool = false
     ) {
         self.type = type
-        self.size = size
         self.shape = shape
+        self.layout = layout
+        self.size = size
         self.block = block
-        self.danger = danger
         self.ghost = ghost
         self.loading = loading
     }
-                                    
+                       
     public func makeBody(configuration: Configuration) -> some View {
         ContentView(
             configuration: configuration,
             type: type,
-            size: size,
             shape: shape,
+            layout: layout,
+            size: size,
             block: block,
-            danger: danger,
             ghost: ghost,
             loading: loading
         )
     }
     
     internal struct ContentView: View {
-        let configuration: ButtonStyle.Configuration
-        @Environment(\.isEnabled) private var isEnabled: Bool
+        @Environment(\.isEnabled) internal var isEnabled: Bool
+        @State internal var isHovered: Bool = false
+
+        internal let configuration: ButtonStyle.Configuration
+        internal let type: ButtonType
+        internal let shape: ButtonShape
+        internal let layout: ButtonLayout
+        internal let size: Size
+
+        internal let block: Bool
+        internal let ghost: Bool
+        internal let loading: Bool
         
-        let type: `Type`
-        let size: Size
-        let shape: Shape
-
-        let block: Bool
-        let danger: Bool
-        let ghost: Bool
-        let loading: Bool
-
-        @State private var isHovered: Bool = false
+        internal var danger: Bool {
+            configuration.role == .destructive
+        }
+        
+        internal var isPressed: Bool {
+            configuration.isPressed
+        }
 
         private var cornerRadius: CGFloat {
             switch (shape, size) {
@@ -148,13 +128,15 @@ public struct Button: ButtonStyle {
         }
         
         private var horizontalPadding: CGFloat {
-            switch size {
-            case .small:
+            switch (size, shape) {
+            case (.small, .default), (.small, .round):
                 return Preferences.btnPaddingHorizontalSm
-            case .middle:
+            case (.middle, .default), (.middle, .round):
                 return Preferences.btnPaddingHorizontalBase
-            case .large:
+            case (.large, .default), (.large, .round):
                 return Preferences.btnPaddingHorizontalLg
+            case (_, .circle), (_, .square):
+                return 0
             }
         }
 
@@ -170,13 +152,13 @@ public struct Button: ButtonStyle {
         }
         
         private var backgroundShadow: Shadow? {
-            guard isEnabled && !configuration.isPressed else { return nil }
+            guard isEnabled && !isPressed else { return nil }
             
             switch type {
             case .primary:
-                return .init(color: .black.opacity(0.045), offset: .init(x: 0, y: 2 + Preferences.btnBorderWidth))
+                return Preferences.btnPrimaryShadow
             case .default, .dashed:
-                return .init(color: .black.opacity(0.015), offset: .init(x: 0, y: 2 + Preferences.btnBorderWidth))
+                return Preferences.btnShadow
             default:
                 return nil
             }
@@ -187,96 +169,83 @@ public struct Button: ButtonStyle {
 
             switch type {
             case .primary:
-                return .init(color: .black.opacity(0.12), offset: .init(x: 0, y: -1))
+                return Preferences.btnTextShadow
              case .default, .dashed, .text, .link:
                 return nil
             }
         }
         
-        private var attributes: Attributes {
-            switch (type, ghost, danger, isEnabled) {
-            case (.primary, false, false, true):
-                return .primary
-            case (.primary, true, false, true):
-                return .primaryGhost
-            case (.primary, false, true, true):
-                return .primaryDanger
-            case (.primary, true, true, true):
-                return .primaryGhostDanger
-            case (.primary, _, _, false):
-                return .primaryDisabled
-                
-            case (.default, false, false, true):
-                return .default
-            case (.default, true, false, true):
-                return .defaultGhost
-            case (.default, false, true, true):
-                return .defaultDanger
-            case (.default, true, true, true):
-                return .defaultGhostDanger
-            case (.default, _, _, false):
-                return .defaultDisabled
-            default:
-                fatalError()
+        private func color(from interactive: Attributes.InteractiveColor) -> Color {
+            if isHovered {
+                return interactive.hovered
+            } else if isPressed {
+                return interactive.pressed
+            } else {
+                return interactive.idle
             }
         }
-        
+                
         var body: some View {
-            configuration.label
-                .labelStyle(ContentLabelStyle(shape: shape, loading: loading, titleShadow: titleShadow))
-                .foregroundColor(configuration.isPressed ? attributes.foregroundColor.pressed : isHovered ? attributes.foregroundColor.hovered : attributes.foregroundColor.idle)
-                .font(.body)
+            return configuration.label
+                .labelStyle(ContentLabelStyle(layout: layout, size: size, loading: loading, titleShadow: titleShadow))
+                .foregroundColor(color(from: attributes.foregroundColor))
+                .font(.system(size: size.font).weight(Preferences.btnFontWeight))
                 .padding(.horizontal, horizontalPadding)
                 .frame(maxWidth: block ? .infinity : nil)
                 .frame(width: width, height: height)
                 .background {
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .fill(configuration.isPressed ? attributes.backgroundColor.pressed : isHovered ? attributes.backgroundColor.hovered : attributes.backgroundColor.idle)
+                        .fill(color(from: attributes.backgroundColor))
                         .modifier(ShadowModifier(shadow: backgroundShadow))
                 }
                 .overlay {
                     if let borderColor = attributes.borderColor, let borderStyle = attributes.borderStyle {
                         RoundedRectangle(cornerRadius: cornerRadius)
                             .stroke(
-                                configuration.isPressed ? borderColor.pressed : isHovered ? borderColor.hovered : borderColor.idle,
-                                style: .init(lineWidth: Preferences.borderWidthBase, dash: borderStyle.dash)
+                                color(from: borderColor),
+                                style: .init(lineWidth: Preferences.btnBorderWidth, dash: borderStyle.dash)
                             )
                     }
                 }
                 .onHover { isHovered = $0 }
-                .animation(.linear(duration: 0.1), value: configuration.isPressed)
+                .animation(.linear(duration: 0.1), value: isPressed)
                 .animation(.linear(duration: 0.1), value: isHovered)
                 .animation(.linear(duration: 0.1), value: isEnabled)
+                .animation(.linear(duration: 0.1), value: loading)
         }
     }
     
     // MARK: - Styles
     
     internal struct ContentLabelStyle: LabelStyle {
-        let shape: Shape
+        let layout: ButtonLayout
+        let size: Size
         let loading: Bool
         let titleShadow: Shadow?
+        
+        @State private var spin: CGFloat = 0
 
         func makeBody(configuration: Configuration) -> some View {
-            switch shape {
-            case .default, .round:
+            Group {
                 HStack {
-                    if loading {
-                        LoadingView()
-                    } else {
-                        configuration.icon
+                    Group {
+                        if loading {
+                            Image("loading", bundle: .module)
+                                .resizable()
+                                .rotationEffect(.degrees(spin))
+                                .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: spin)
+                                .onAppear { spin = 360 }
+                                .onDisappear { spin = 0 }
+                        } else if layout.hasIcon {
+                            configuration.icon
+                        }
                     }
+                    .frame(width: size.icon.width, height: size.icon.height)
                     
-                    configuration.title
-                        .modifier(ShadowModifier(shadow: titleShadow))
-                }
-            case let .circle(content), let .square(content):
-                if loading {
-                    LoadingView()
-                } else if content == .icon {
-                    configuration.icon
-                } else if content == .title {
-                    configuration.title
+                    if layout.hasTitle {
+                        configuration.title
+                            .modifier(ShadowModifier(shadow: titleShadow))
+                    }
                 }
             }
         }

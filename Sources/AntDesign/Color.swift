@@ -32,6 +32,7 @@ public extension Color {
         case dividers = "Dividers"
         case background = "Background"
         case componentBackground = "Component background"
+        case disableBackground = "Disable background"
         case tableHeader = "Table header"
     }
     
@@ -52,7 +53,7 @@ public extension Color {
     }
     
     static func neutral(_ color: NeutralColor) -> Self {
-        .init(color.rawValue)
+        .init(color.rawValue, bundle: .module)
     }
     
     static func functional(_ color: FunctionalColor) -> Self {
@@ -71,6 +72,6 @@ public extension Color {
     // MARK: - Private functions
     
     private static func color(_ rawValue: String, index: Int) -> Color {
-        .init(.init(format: "%@-%d", rawValue, index))
+        .init(.init(format: "%@-%d", rawValue, index), bundle: .module)
     }
 }

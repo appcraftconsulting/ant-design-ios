@@ -35,6 +35,7 @@ public enum Preferences {
     // Border color
     public static var borderColorSplit : Color = .black.opacity(0.94)
     public static var borderWidthBase: CGFloat = 1 // width of the border for a component
+    public static var borderStyleBase: BorderStyle = .solid // style of a components border
     
     // vertical paddings
     public static var paddingLg: CGFloat = 24 // containers
@@ -53,25 +54,34 @@ public enum Preferences {
     public static var outlineWidth: CGFloat = 2
     public static var outlineFade: CGFloat = 0.2
     
-    public static var backgroundColorBase: Color = .neutral(.componentBackground)
+    public static var backgroundColorBase: Color = .neutral(.disableBackground)
     public static var textColor: Color = .neutral(.primaryText)
     public static var textColorSecondary: Color = .neutral(.secondaryText)
     
     // Disabled states
     public static var disabledColor: Color = .neutral(.disable)
-    public static var disabledBg = backgroundColorBase
+    public static var disabledBg: Color = .neutral(.disableBackground)
     public static var disabledActiveBg: Color = .black.opacity(0.90)
     
     // Base background color for most components
     public static var componentBackground: Color = .neutral(.componentBackground)
     
+    public static var fontSizeBase: CGFloat = 15
+    public static var fontSizeLg = fontSizeBase + 2
+    public static var fontSizeSm: CGFloat = 13
     public static var borderRadiusBase: CGFloat = 2
+    public static var borderRadiusSm = borderRadiusBase
     
     // Buttons
     
+    public static var btnFontWeight: Font.Weight = .regular
     public static var btnBorderRadiusBase = borderRadiusBase
     public static var btnBorderRadiusSm = borderRadiusBase
     public static var btnBorderWidth = borderWidthBase
+    public static var btnBorderStyle = borderStyleBase
+    public static var btnShadow: Shadow = .init(color: .black.opacity(0.015), offset: .init(x: 0, y: 2))
+    public static var btnPrimaryShadow: Shadow = .init(color: .black.opacity(0.045), offset: .init(x: 0, y: 2))
+    public static var btnTextShadow: Shadow = .init(color: .black.opacity(0.120), offset: .init(x: 0, y: -1))
     
     public static var btnPrimaryColor: Color = .neutral(.gray, 1)
     public static var btnPrimaryBg = primaryColor
