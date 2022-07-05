@@ -73,7 +73,6 @@ public enum Preferences {
     public static var borderRadiusSm = borderRadiusBase
     
     // Buttons
-    
     public static var btnFontWeight: Font.Weight = .regular
     public static var btnBorderRadiusBase = borderRadiusBase
     public static var btnBorderRadiusSm = borderRadiusBase
@@ -120,4 +119,20 @@ public enum Preferences {
     
     public static var btnLinkHoverBg: Color = .clear
     public static var btnTextHoverBg: Color = .black.opacity(0.018)
+    
+    // Switch
+    // ---
+    public static var switchHeight: CGFloat = 22
+    public static var switchSmHeight: CGFloat = 16
+    public static var switchMinWidth: CGFloat = 44
+    public static var switchSmMinWidth: CGFloat = 28
+    public static var switchDisabledOpacity: CGFloat = 0.4
+    public static var switchColor = primaryColor
+    public static var switchBg = componentBackground
+    public static var switchShadowColor = Color(hex: 0x00230b, alpha: 0.2)
+    public static var switchPadding: CGFloat = 2
+    public static var switchInnerMarginMin = ceil(switchHeight * 0.3)
+    public static var switchInnerMarginMax = ceil(switchHeight * 1.1)
+    public static var switchSmInnerMarginMin = ceil(switchHeight * 0.3)
+    public static var switchSmInnerMarginMax = ceil(switchHeight * 1.1)
 }

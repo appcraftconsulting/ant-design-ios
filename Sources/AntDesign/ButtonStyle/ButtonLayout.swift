@@ -14,11 +14,11 @@ public enum ButtonLayout: String, CaseIterable {
     
     public static var `default`: Self = .titleAndIcon
     
-    internal var hasIcon: Bool {
+    public var hasIcon: Bool {
         self == .titleAndIcon || self == .iconOnly
     }
     
-    internal var hasTitle: Bool {
+    public var hasTitle: Bool {
         self == .titleAndIcon || self == .titleOnly
     }
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public enum Icon: Hashable {
+public enum Icon: Hashable, CustomStringConvertible {
     public enum Outlined: String, CaseIterable {
         case accountBook = "account-book"
         case aim = "aim"
@@ -818,6 +818,19 @@ public enum Icon: Hashable {
             return .init(format: "filled/%@", icon.rawValue)
         case let .twotone(icon):
             return .init(format: "twotone/%@", icon.rawValue)
+        }
+    }
+    
+    // MARK: - CustomStringConvertible
+
+    public var description: String {
+        switch self {
+        case let .outlined(icon):
+            return .init(format: "outlined(%@)", String(describing: icon))
+        case let .filled(icon):
+            return .init(format: "filled(%@)", String(describing: icon))
+        case let .twotone(icon):
+            return .init(format: "twotone(%@)", String(describing: icon))
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal extension ButtonStyle.ContentView.Attributes {
+internal extension ButtonStyle.Attributes {
     static var linkGhostDanger: Self {
         print("`link` or `text` button can't be a `ghost` button.")
         return linkDanger

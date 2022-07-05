@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-internal extension ButtonStyle.ContentView {
+internal extension ButtonStyle {
     struct Attributes {
         struct InteractiveColor {
             let pressed: Color
@@ -42,8 +42,8 @@ internal extension ButtonStyle.ContentView {
     }
 }
 
-extension ButtonStyle.ContentView {
-    internal var attributes: Attributes {
+extension ButtonStyle {
+    internal func attributes(danger: Bool) -> Attributes {
         switch (type, ghost, danger, isEnabled) {
         case (.primary, false, false, true):
             return .primary
@@ -53,7 +53,9 @@ extension ButtonStyle.ContentView {
             return .primaryDanger
         case (.primary, true, true, true):
             return .primaryGhostDanger
-        case (.primary, _, _, false):
+        case (.primary, true, _, false):
+            return .primaryGhostDisabled
+        case (.primary, false, _, false):
             return .primaryDisabled
             
         case (.default, false, false, true):
@@ -64,7 +66,9 @@ extension ButtonStyle.ContentView {
             return .defaultDanger
         case (.default, true, true, true):
             return .defaultGhostDanger
-        case (.default, _, _, false):
+        case (.default, true, _, false):
+            return .defaultGhostDisabled
+        case (.default, false, _, false):
             return .defaultDisabled
             
         case (.dashed, false, false, true):
@@ -75,7 +79,9 @@ extension ButtonStyle.ContentView {
             return .dashedDanger
         case (.dashed, true, true, true):
             return .dashedGhostDanger
-        case (.dashed, _, _, false):
+        case (.dashed, true, _, false):
+            return .dashedGhostDisabled
+        case (.dashed, false, _, false):
             return .dashedDisabled
             
         case (.link, false, false, true):

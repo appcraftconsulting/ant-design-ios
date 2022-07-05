@@ -7,12 +7,21 @@
 
 import Foundation
 
-internal extension ButtonStyle.ContentView.Attributes {
+internal extension ButtonStyle.Attributes {
     static var defaultGhostDanger: Self {
         .init(
             foregroundColor: .error,
             backgroundColor: .all(Preferences.btnDefaultGhostBg),
             borderColor: .error,
+            borderStyle: Preferences.btnBorderStyle
+        )
+    }
+    
+    static var defaultGhostDisabled: Self {
+        .init(
+            foregroundColor: .all(Preferences.btnDisableColor),
+            backgroundColor: .all(.clear),
+            borderColor: .all(Preferences.btnDisableBorder),
             borderStyle: Preferences.btnBorderStyle
         )
     }
