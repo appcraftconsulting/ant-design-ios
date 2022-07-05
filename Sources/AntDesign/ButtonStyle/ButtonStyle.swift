@@ -230,8 +230,7 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
                 HStack {
                     Group {
                         if loading {
-                            Image("outlined/loading", bundle: .module)
-                                .resizable()
+                            IconView(icon: .outlined(.loading), size: size)
                                 .rotationEffect(.degrees(spin))
                                 .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: spin)
                                 .onAppear { spin = 360 }
