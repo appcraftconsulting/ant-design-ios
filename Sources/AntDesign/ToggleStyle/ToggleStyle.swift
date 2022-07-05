@@ -17,10 +17,16 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
     @State private var outlinePadding: CGFloat = 0.0
     @State private var outlineOpacity: CGFloat = 0.5
     @State private var isPressed: Bool = false
-    private let size: Size
     
-    public init(size: Size = .default) {
+    private let size: Size
+    private let icon: Icon?
+    
+    public init(
+        size: Size = .default,
+        icon: Icon? = nil
+    ) {
         self.size = size
+        self.icon = icon
     }
     
     private var minWidth: CGFloat {
@@ -41,8 +47,19 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
         }
     }
     
+    private var pinSize: CGFloat {
+        switch size {
+        case .default:
+            return Preferences.switchHeight - 4
+        case .small:
+            return Preferences.switchSmHeight - 4
+        }
+    }
+    
     public func makeBody(configuration: Configuration) -> some View {
-        HStack {
+        var isOn: Bool { configuration.isOn }
+        
+        return HStack {
             configuration.label
             
             Spacer()
@@ -50,11 +67,25 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
             Button {
                 configuration.isOn.toggle()
             } label: {
-                Capsule()
-                    .fill(configuration.isOn ? Preferences.switchColor : Preferences.disabledColor)
-                    .opacity(isEnabled ? 1 : Preferences.switchDisabledOpacity)
-                    .frame(width: minWidth)
-                    .frame(height: height)
+                Group {
+                    HStack(spacing: 0) {
+                        if isOn {
+                            Text("1")
+                        } else {
+                            Text("0")
+                        }
+                    }
+                    .font(.system(size: Preferences.fontSizeSm))
+                    .padding(.leading, isOn ? Preferences.switchInnerMarginMin : Preferences.switchInnerMarginMax)
+                    .padding(.trailing, isOn ? Preferences.switchInnerMarginMax : Preferences.switchInnerMarginMin)
+                }
+                .padding(Preferences.switchPadding)
+                .frame(height: height)
+                .background {
+                    Capsule()
+                        .fill(isOn ? Preferences.switchColor : Preferences.disabledColor)
+                        .opacity(isEnabled ? 1 : Preferences.switchDisabledOpacity)
+                }
             }
             .background {
                 ZStack {
@@ -68,11 +99,9 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
                 }
                 .compositingGroup()
             }
-            .animation(.easeInOut(duration: 0.2), value: configuration.isOn)
-            .buttonStyle(ButtonStyle(isOn: configuration.isOn, size: size))
-            .onChange(of: configuration.isOn) { _ in
-                tap()
-            }
+            .animation(.easeInOut(duration: 0.2), value: isOn)
+            .buttonStyle(ButtonStyle(isOn: isOn, pinSize: pinSize))
+            .onChange(of: isOn) { _ in tap() }
         }
     }
     
@@ -99,16 +128,7 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
     
     private struct ButtonStyle: SwiftUI.ButtonStyle {
         let isOn: Bool
-        let size: Size
-        
-        private var pinSize: CGFloat {
-            switch size {
-            case .default:
-                return Preferences.switchHeight - 4
-            case .small:
-                return Preferences.switchSmHeight - 4
-            }
-        }
+        let pinSize: CGFloat
         
         func makeBody(configuration: Configuration) -> some View {
             var isPressed: Bool { configuration.isPressed }
