@@ -43,8 +43,8 @@ internal extension ButtonStyle {
 }
 
 extension ButtonStyle {
-    internal func attributes(danger: Bool) -> Attributes {
-        switch (type, isGhost, danger, isEnabled) {
+    internal func attributes(isDanger: Bool) -> Attributes {
+        switch (type, isGhost, isDanger, isEnabled) {
         case (.primary, false, false, true):
             return .primary
         case (.primary, true, false, true):

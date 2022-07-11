@@ -23,6 +23,8 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
     internal let isGhost: Bool
     internal let isLoading: Bool
     
+    internal let groupPosition: GroupPosition?
+    
     public init(
         type: ButtonType = .default,
         shape: ButtonShape = .default,
@@ -30,7 +32,8 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
         size: Size = .default,
         isBlock: Bool = false,
         isGhost: Bool = false,
-        isLoading: Bool = false
+        isLoading: Bool = false,
+        groupPosition: GroupPosition? = nil
     ) {
         self.type = type
         self.shape = shape
@@ -39,6 +42,7 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
         self.isBlock = isBlock
         self.isGhost = isGhost
         self.isLoading = isLoading
+        self.groupPosition = groupPosition
     }
     
     private var cornerRadius: CGFloat {
@@ -146,12 +150,25 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
         }
     }
     
-    private func outlineColor(danger: Bool) -> Color? {
+    private var corners: UIRectCorner {
+        switch groupPosition {
+        case .first:
+            return [.topLeft, .bottomLeft]
+        case .last:
+            return [.topRight, .bottomRight]
+        case .middle:
+            return []
+        case .none:
+            return .allCorners
+        }
+    }
+    
+    private func outlineColor(isDanger: Bool) -> Color? {
         guard (type == .primary || type == .default || type == .dashed) && !isLoading else {
             return nil
         }
         
-        return danger ? Preferences.btnDangerBg : Preferences.btnPrimaryBg
+        return isDanger ? Preferences.btnDangerBg : Preferences.btnPrimaryBg
     }
     
     private func color(from interactive: Attributes.InteractiveColor, isPressed: Bool) -> Color {
@@ -170,25 +187,25 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
         
         return configuration.label
             .labelStyle(ContentLabelStyle(layout: layout, size: size, loading: isLoading, titleShadow: titleShadow))
-            .foregroundColor(color(from: attributes(danger: isDanger).foregroundColor, isPressed: isPressed))
+            .foregroundColor(color(from: attributes(isDanger: isDanger).foregroundColor, isPressed: isPressed))
             .font(.system(size: size.font).weight(Preferences.btnFontWeight))
             .padding(.horizontal, horizontalPadding)
             .frame(maxWidth: isBlock ? .infinity : nil)
             .frame(width: width, height: height)
             .background {
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(color(from: attributes(danger: isDanger).backgroundColor, isPressed: isPressed))
+                RoundedRectangle(corners: corners, cornerRadius: cornerRadius)
+                    .fill(color(from: attributes(isDanger: isDanger).backgroundColor, isPressed: isPressed))
                     .modifier(ShadowModifier(shadow: backgroundShadow(isPressed: isPressed)))
             }
-            .background {
-                if let outlineColor = outlineColor(danger: isDanger) {
+            .overlay {
+                if let outlineColor = outlineColor(isDanger: isDanger) {
                     ZStack {
-                        RoundedRectangle(cornerRadius: cornerRadius + abs(outlinePadding))
+                        RoundedRectangle(corners: corners, cornerRadius: cornerRadius + abs(outlinePadding))
                             .fill(outlineColor)
                             .padding(outlinePadding)
                             .opacity(outlineOpacity)
                             
-                        RoundedRectangle(cornerRadius: cornerRadius)
+                        RoundedRectangle(corners: corners, cornerRadius: cornerRadius)
                             .fill(Color.white)
                             .blendMode(.destinationOut)
                     }
@@ -196,8 +213,8 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
                 }
             }
             .overlay {
-                if let borderColor = attributes(danger: isDanger).borderColor, let borderStyle = attributes(danger: isDanger).borderStyle {
-                    RoundedRectangle(cornerRadius: cornerRadius)
+                if let borderColor = attributes(isDanger: isDanger).borderColor, let borderStyle = attributes(isDanger: isDanger).borderStyle {
+                    RoundedRectangle(corners: corners, cornerRadius: cornerRadius)
                         .stroke(
                             color(from: borderColor, isPressed: isPressed),
                             style: .init(lineWidth: Preferences.btnBorderWidth, dash: borderStyle.dash)
