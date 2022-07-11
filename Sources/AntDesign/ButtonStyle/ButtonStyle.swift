@@ -146,7 +146,7 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
     }
     
     private func outlineColor(danger: Bool) -> Color? {
-        guard type == .primary || type == .default || type == .primary else {
+        guard (type == .primary || type == .default || type == .dashed) && !loading else {
             return nil
         }
         
@@ -190,7 +190,6 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
                         RoundedRectangle(cornerRadius: cornerRadius)
                             .blendMode(.destinationOut)
                     }
-                    .compositingGroup()
                 }
             }
             .overlay {
@@ -202,8 +201,9 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
                         )
                 }
             }
+            .compositingGroup()
+            .opacity(loading ? 0.65 : 1)
             .onHover { isHovered = $0 }
-            .opacity(loading ? 0.35 : 1)
 //            .onTapGesture { tap() }
             .animation(.linear(duration: 0.1), value: isPressed)
             .animation(.linear(duration: 0.1), value: isHovered)
