@@ -65,7 +65,7 @@ public enum Preferences {
     public static var disabledActiveBg: Color = .black.opacity(0.90)
     
     // Base background color for most components
-    public static var componentBackground: Color = .neutral(.componentBackground)
+    public static var componentBackground: Color = .preferences(.componentBackground)
     
     public static var fontSizeBase: CGFloat = 15
     public static var fontSizeLg = fontSizeBase + 2
@@ -98,9 +98,9 @@ public enum Preferences {
     public static var btnDisableBg = disabledBg
     public static var btnDisableBorder : Color = .neutral(.border)
 
-    public static var btnDefaultGhostColor: Color = .neutral(.gray, 1)
+    public static var btnDefaultGhostColor: Color = .preferences(.btnDefaultGhostColor)
     public static var btnDefaultGhostBg: Color = .clear
-    public static var btnDefaultGhostBorder: Color = .neutral(.gray, 1)
+    public static var btnDefaultGhostBorder: Color = .preferences(.btnDefaultGhostBorder)
 
     public static var btnPaddingHorizontalBase = paddingMd - 1
     public static var btnPaddingHorizontalLg = btnPaddingHorizontalBase
@@ -119,7 +119,7 @@ public enum Preferences {
     public static var btnSquareSizeSm = btnHeightSm
     
     public static var btnLinkHoverBg: Color = .clear
-    public static var btnTextHoverBg: Color = .black.opacity(0.018)
+    public static var btnTextHoverBg: Color = .preferences(.btnTextHoverBg)
     
     // Switch
     // ---

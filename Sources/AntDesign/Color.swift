@@ -31,9 +31,16 @@ public extension Color {
         case border = "Border"
         case dividers = "Dividers"
         case background = "Background"
-        case componentBackground = "Component background"
         case disableBackground = "Disable background"
         case tableHeader = "Table header"
+    }
+    
+    enum PreferencesColor: String {
+        case btnTextHoverBg = "@btn-text-hover-bg"
+        case bodyBackground = "@body-background"
+        case componentBackground = "@component-background"
+        case btnDefaultGhostBorder = "@btn-default-ghost-border"
+        case btnDefaultGhostColor = "@btn-default-ghost-color"
     }
     
     enum NeutralColorPalette: String {
@@ -56,6 +63,10 @@ public extension Color {
         .init(color.rawValue, bundle: .module)
     }
     
+    static func preferences(_ color: PreferencesColor) -> Self {
+        .init(color.rawValue, bundle: .module)
+    }
+
     static func functional(_ color: FunctionalColor) -> Self {
         switch color {
         case .link:

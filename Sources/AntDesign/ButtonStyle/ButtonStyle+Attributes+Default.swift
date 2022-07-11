@@ -20,7 +20,7 @@ internal extension ButtonStyle.Attributes {
     static var defaultGhostDisabled: Self {
         .init(
             foregroundColor: .all(Preferences.btnDisableColor),
-            backgroundColor: .all(.clear),
+            backgroundColor: .all(Preferences.btnDefaultGhostBg),
             borderColor: .all(Preferences.btnDisableBorder),
             borderStyle: Preferences.btnBorderStyle
         )

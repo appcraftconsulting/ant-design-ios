@@ -10,7 +10,7 @@ import SwiftUI
 public struct ButtonStyle: SwiftUI.ButtonStyle {
     @Environment(\.isEnabled) internal var isEnabled: Bool
 
-    @State internal var isHovered: Bool = false
+    @State private var isHovered: Bool = false
     @State private var outlinePadding: CGFloat = 0.0
     @State private var outlineOpacity: CGFloat = 0.5
     
@@ -19,26 +19,26 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
     internal let layout: ButtonLayout
     internal let size: Size
     
-    internal let block: Bool
-    internal let ghost: Bool
-    internal let loading: Bool
+    internal let isBlock: Bool
+    internal let isGhost: Bool
+    internal let isLoading: Bool
     
     public init(
         type: ButtonType = .default,
         shape: ButtonShape = .default,
         layout: ButtonLayout = .default,
         size: Size = .default,
-        block: Bool = false,
-        ghost: Bool = false,
-        loading: Bool = false
+        isBlock: Bool = false,
+        isGhost: Bool = false,
+        isLoading: Bool = false
     ) {
         self.type = type
         self.shape = shape
         self.layout = layout
         self.size = size
-        self.block = block
-        self.ghost = ghost
-        self.loading = loading
+        self.isBlock = isBlock
+        self.isGhost = isGhost
+        self.isLoading = isLoading
     }
     
     private var cornerRadius: CGFloat {
@@ -136,7 +136,7 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
     }
     
     private var titleShadow: Shadow? {
-        guard isEnabled && !ghost else { return nil }
+        guard isEnabled && !isGhost else { return nil }
 
         switch type {
         case .primary:
@@ -147,7 +147,7 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
     }
     
     private func outlineColor(danger: Bool) -> Color? {
-        guard (type == .primary || type == .default || type == .dashed) && !loading else {
+        guard (type == .primary || type == .default || type == .dashed) && !isLoading else {
             return nil
         }
         
@@ -165,23 +165,23 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
     }
             
     public func makeBody(configuration: Configuration) -> some View {
-        var danger: Bool { configuration.role == .destructive }
+        var isDanger: Bool { configuration.role == .destructive }
         var isPressed: Bool { configuration.isPressed }
         
         return configuration.label
-            .labelStyle(ContentLabelStyle(layout: layout, size: size, loading: loading, titleShadow: titleShadow))
-            .foregroundColor(color(from: attributes(danger: danger).foregroundColor, isPressed: isPressed))
+            .labelStyle(ContentLabelStyle(layout: layout, size: size, loading: isLoading, titleShadow: titleShadow))
+            .foregroundColor(color(from: attributes(danger: isDanger).foregroundColor, isPressed: isPressed))
             .font(.system(size: size.font).weight(Preferences.btnFontWeight))
             .padding(.horizontal, horizontalPadding)
-            .frame(maxWidth: block ? .infinity : nil)
+            .frame(maxWidth: isBlock ? .infinity : nil)
             .frame(width: width, height: height)
             .background {
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(color(from: attributes(danger: danger).backgroundColor, isPressed: isPressed))
+                    .fill(color(from: attributes(danger: isDanger).backgroundColor, isPressed: isPressed))
                     .modifier(ShadowModifier(shadow: backgroundShadow(isPressed: isPressed)))
             }
             .background {
-                if let outlineColor = outlineColor(danger: danger) {
+                if let outlineColor = outlineColor(danger: isDanger) {
                     ZStack {
                         RoundedRectangle(cornerRadius: cornerRadius + abs(outlinePadding))
                             .fill(outlineColor)
@@ -189,12 +189,14 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
                             .opacity(outlineOpacity)
                             
                         RoundedRectangle(cornerRadius: cornerRadius)
+                            .fill(Color.white)
                             .blendMode(.destinationOut)
                     }
+                    .compositingGroup()
                 }
             }
             .overlay {
-                if let borderColor = attributes(danger: danger).borderColor, let borderStyle = attributes(danger: danger).borderStyle {
+                if let borderColor = attributes(danger: isDanger).borderColor, let borderStyle = attributes(danger: isDanger).borderStyle {
                     RoundedRectangle(cornerRadius: cornerRadius)
                         .stroke(
                             color(from: borderColor, isPressed: isPressed),
@@ -203,16 +205,15 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
                 }
             }
             .compositingGroup()
-            .opacity(loading ? 0.65 : 1)
-            .onHover { isHovered = $0 }
+            .opacity(isLoading ? 0.35 : 1)
             .animation(.linear(duration: 0.1), value: isPressed)
             .animation(.linear(duration: 0.1), value: isHovered)
             .animation(.linear(duration: 0.1), value: isEnabled)
-            .animation(.linear(duration: 0.1), value: loading)
-            .onChange(of: isPressed) { isPressed in /// `onTap` would be better but conflicts with Button action :(
-                if !isPressed {
-                    tap()
-                }
+            .animation(.linear(duration: 0.1), value: isLoading)
+            .onHover { isHovered = $0 }
+            .onChange(of: isPressed) { isPressed in
+                /// `onTap` would be better but conflicts with button `action`
+                if !isPressed { tap() }
             }
     }
     

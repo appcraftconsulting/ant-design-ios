@@ -20,7 +20,7 @@ internal extension ButtonStyle.Attributes {
     static var dashedGhostDisabled: Self {
         .init(
             foregroundColor: .all(Preferences.btnDisableColor),
-            backgroundColor: .all(.clear),
+            backgroundColor: .all(Preferences.btnDefaultGhostBg),
             borderColor: .all(Preferences.btnDisableBorder),
             borderStyle: .dashed
         )
