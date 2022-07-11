@@ -203,7 +203,8 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
                 }
             }
             .onHover { isHovered = $0 }
-            .onTapGesture { tap() }
+            .opacity(loading ? 0.35 : 1)
+//            .onTapGesture { tap() }
             .animation(.linear(duration: 0.1), value: isPressed)
             .animation(.linear(duration: 0.1), value: isHovered)
             .animation(.linear(duration: 0.1), value: isEnabled)
@@ -239,17 +240,13 @@ internal struct ContentLabelStyle: LabelStyle {
     let titleShadow: Shadow?
     
     @State private var spin: CGFloat = 0
-
+    
     func makeBody(configuration: Configuration) -> some View {
         Group {
             HStack {
                 Group {
                     if loading {
-                        IconView(icon: .outlined(.loading), size: size)
-                            .rotationEffect(.degrees(spin))
-                            .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: spin)
-                            .onAppear { spin = 360 }
-                            .onDisappear { spin = 0 }
+                        IconView(icon: .outlined(.loading), size: size, spin: true)
                     } else if layout.hasIcon {
                         configuration.icon
                     }

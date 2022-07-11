@@ -57,6 +57,7 @@ public enum Preferences {
     public static var backgroundColorBase: Color = .neutral(.disableBackground)
     public static var textColor: Color = .neutral(.primaryText)
     public static var textColorSecondary: Color = .neutral(.secondaryText)
+    public static var textColorInverse: Color = .white
     
     // Disabled states
     public static var disabledColor: Color = .neutral(.disable)
@@ -128,7 +129,7 @@ public enum Preferences {
     public static var switchSmMinWidth: CGFloat = 28
     public static var switchDisabledOpacity: CGFloat = 0.4
     public static var switchColor = primaryColor
-    public static var switchBg = componentBackground
+    public static var switchBg: Color = .white
     public static var switchShadowColor = Color(hex: 0x00230b, alpha: 0.2)
     public static var switchPadding: CGFloat = 2
     public static var switchInnerMarginMin = ceil(switchHeight * 0.3)

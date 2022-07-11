@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 
 public enum Size: String, CaseIterable {
-    case small
-    case middle
     case large
+    case middle
+    case small
 
     public static let `default`: Self = .middle
 

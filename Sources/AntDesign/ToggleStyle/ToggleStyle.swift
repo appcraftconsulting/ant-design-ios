@@ -11,48 +11,79 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
     public enum Size {
         case small
         case `default`
+        
+        var loadingIcon: CGSize {
+            switch self {
+            case .small:
+                return .init(width: 9, height: 9)
+            case .default:
+                return .init(width: 14, height: 14)
+            }
+        }
+        
+        var minWidth: CGFloat {
+            switch self {
+            case .default:
+                return Preferences.switchMinWidth
+            case .small:
+                return Preferences.switchSmMinWidth
+            }
+        }
+        
+        var height: CGFloat {
+            switch self {
+            case .default:
+                return Preferences.switchHeight
+            case .small:
+                return Preferences.switchSmHeight
+            }
+        }
+        
+        var pin: CGFloat {
+            switch self {
+            case .default:
+                return Preferences.switchHeight - 4
+            case .small:
+                return Preferences.switchSmHeight - 4
+            }
+        }
+    }
+    
+    public enum Child {
+        case icon(Icon)
+        case text(String)
     }
     
     @Environment(\.isEnabled) private var isEnabled
+
     @State private var outlinePadding: CGFloat = 0.0
     @State private var outlineOpacity: CGFloat = 0.5
     @State private var isPressed: Bool = false
     
     private let size: Size
-    private let icon: Icon?
+    private let checkedChild: Child?
+    private let unCheckedChild: Child?
+    private let isLoading: Bool
     
+    private let generator = UIImpactFeedbackGenerator(style: .light)
+
     public init(
         size: Size = .default,
-        icon: Icon? = nil
+        checkedChild: Child? = nil,
+        unCheckedChild: Child? = nil,
+        isLoading: Bool = false
     ) {
         self.size = size
-        self.icon = icon
+        self.checkedChild = checkedChild
+        self.unCheckedChild = unCheckedChild
+        self.isLoading = isLoading
     }
     
-    private var minWidth: CGFloat {
-        switch size {
-        case .default:
-            return Preferences.switchMinWidth
-        case .small:
-            return Preferences.switchSmMinWidth
-        }
-    }
-    
-    private var height: CGFloat {
-        switch size {
-        case .default:
-            return Preferences.switchHeight
-        case .small:
-            return Preferences.switchSmHeight
-        }
-    }
-    
-    private var pinSize: CGFloat {
-        switch size {
-        case .default:
-            return Preferences.switchHeight - 4
-        case .small:
-            return Preferences.switchSmHeight - 4
+    private func child(isOn: Bool) -> Child? {
+        if isOn {
+            return checkedChild
+        } else {
+            return unCheckedChild
         }
     }
     
@@ -61,30 +92,38 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
         
         return HStack {
             configuration.label
-            
-            Spacer()
+                .frame(maxWidth: .infinity, alignment: .leading)
             
             Button {
                 configuration.isOn.toggle()
             } label: {
                 Group {
-                    HStack(spacing: 0) {
-                        if isOn {
-                            Text("1")
-                        } else {
-                            Text("0")
+                    if let child = child(isOn: isOn) {
+                        Group {
+                            switch child {
+                            case let .icon(icon):
+                                IconView(
+                                    icon: icon,
+                                    size: .init(width: 12, height: 12)
+                                )
+                            case let .text(string):
+                                Text(string)
+                                    .font(.system(size: Preferences.fontSizeSm))
+                            }
                         }
+                        .foregroundColor(Preferences.textColorInverse)
+                        .padding(.leading, isOn ? Preferences.switchInnerMarginMin : Preferences.switchInnerMarginMax)
+                        .padding(.trailing, isOn ? Preferences.switchInnerMarginMax : Preferences.switchInnerMarginMin)
+                        .padding(Preferences.switchPadding)
+                    } else {
+                        Color.clear
                     }
-                    .font(.system(size: Preferences.fontSizeSm))
-                    .padding(.leading, isOn ? Preferences.switchInnerMarginMin : Preferences.switchInnerMarginMax)
-                    .padding(.trailing, isOn ? Preferences.switchInnerMarginMax : Preferences.switchInnerMarginMin)
                 }
-                .padding(Preferences.switchPadding)
-                .frame(height: height)
+                .frame(minWidth: size.minWidth, idealHeight: size.height)
+                .fixedSize(horizontal: true, vertical: true)
                 .background {
                     Capsule()
                         .fill(isOn ? Preferences.switchColor : Preferences.disabledColor)
-                        .opacity(isEnabled ? 1 : Preferences.switchDisabledOpacity)
                 }
             }
             .background {
@@ -100,8 +139,15 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
                 .compositingGroup()
             }
             .animation(.easeInOut(duration: 0.2), value: isOn)
-            .buttonStyle(ButtonStyle(isOn: isOn, pinSize: pinSize))
-            .onChange(of: isOn) { _ in tap() }
+            .buttonStyle(ButtonStyle(isOn: isOn, isLoading: isLoading, size: size))
+            .disabled(isLoading)
+            .onAppear() {
+                generator.prepare()
+            }
+            .onChange(of: isOn) { _ in
+                generator.impactOccurred()
+                tap()
+            }
         }
     }
     
@@ -124,11 +170,14 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
         }
     }
     
-    // MARK: - Button Style
+    // MARK: - Styles
     
     private struct ButtonStyle: SwiftUI.ButtonStyle {
+        @Environment(\.isEnabled) private var isEnabled
+        
         let isOn: Bool
-        let pinSize: CGFloat
+        let isLoading: Bool
+        let size: Size
         
         func makeBody(configuration: Configuration) -> some View {
             var isPressed: Bool { configuration.isPressed }
@@ -136,14 +185,27 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
             return ZStack(alignment: isOn ? .trailing : .leading) {
                 configuration.label
                 
-                Capsule()
-                    .fill(.white)
-                    .frame(width: pinSize * (isPressed ? 1.3 : 1.0), height: pinSize)
-                    .shadow(color: Preferences.switchShadowColor, radius: 4, x: 0, y: 2)
-                    .padding(Preferences.switchPadding)
+                ZStack(alignment: .center) {
+                    Capsule()
+                        .fill(Preferences.switchBg)
+                        .frame(width: size.pin * (isPressed ? 1.3 : 1.0), height: size.pin)
+                        .shadow(color: Preferences.switchShadowColor, radius: 4, x: 0, y: 2)
+                        .padding(Preferences.switchPadding)
+                    
+                    if isLoading {
+                        IconView(
+                            icon: .outlined(.loading),
+                            size: size.loadingIcon,
+                            spin: true
+                        )
+                        .foregroundColor(isOn ? Preferences.switchColor : .black.opacity(0.65))
+                    }
+                }
+
             }
             .compositingGroup()
             .animation(.easeInOut(duration: 0.2), value: isPressed)
+            .opacity(isEnabled ? 1 : Preferences.switchDisabledOpacity)
         }
     }
 }

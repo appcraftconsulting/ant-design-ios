@@ -867,13 +867,32 @@ public extension Label where Title == Text, Icon == IconView {
 }
 
 public struct IconView: View {
-    let icon: Icon
-    let size: Size
+    private let icon: Icon
+    private let size: CGSize
+    private let spin: Bool
     
+    @State private var angle: CGFloat = 0
+    
+    public init(icon: Icon, size: Size = .default, spin: Bool = false) {
+        self.icon = icon
+        self.size = size.icon
+        self.spin = spin
+    }
+    
+    internal init(icon: Icon, size: CGSize, spin: Bool = false) {
+        self.icon = icon
+        self.size = size
+        self.spin = spin
+    }
+
     public var body: some View {
         Image(icon.name, bundle: .module)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: size.icon.width, height: size.icon.height)
+            .frame(width: size.width, height: size.height)
+            .rotationEffect(.degrees(angle))
+            .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: angle)
+            .onAppear { if spin { angle = 360 } }
+            .onDisappear { if spin { angle = 0 } }
     }
 }
