@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct ButtonStyle: SwiftUI.ButtonStyle {
     @Environment(\.isEnabled) internal var isEnabled: Bool
+
     @State internal var isHovered: Bool = false
     @State private var outlinePadding: CGFloat = 0.0
     @State private var outlineOpacity: CGFloat = 0.5
@@ -39,7 +40,7 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
         self.ghost = ghost
         self.loading = loading
     }
-
+    
     private var cornerRadius: CGFloat {
         switch (shape, size) {
         case (.default, .middle), (.default, .large), (.square, .middle), (.square, .large):
@@ -204,20 +205,22 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
             .compositingGroup()
             .opacity(loading ? 0.65 : 1)
             .onHover { isHovered = $0 }
-//            .onTapGesture { tap() }
             .animation(.linear(duration: 0.1), value: isPressed)
             .animation(.linear(duration: 0.1), value: isHovered)
             .animation(.linear(duration: 0.1), value: isEnabled)
             .animation(.linear(duration: 0.1), value: loading)
+            .onChange(of: isPressed) { isPressed in /// `onTap` would be better but conflicts with Button action :(
+                if !isPressed {
+                    tap()
+                }
+            }
     }
-    
-    // MARK: - Private functions
     
     private func tap() {
         let duration: TimeInterval = 0.4
 
         withAnimation(.easeOut(duration: duration / 2)) {
-            outlinePadding = -6.0
+            outlinePadding = -4.0
         }
         
         withAnimation(.easeOut(duration: duration)) {

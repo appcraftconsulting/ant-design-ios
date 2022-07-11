@@ -157,7 +157,7 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
         let duration: TimeInterval = 0.4
         
         withAnimation(.easeOut(duration: duration / 2)) {
-            outlinePadding = -6.0
+            outlinePadding = -4.0
         }
         
         withAnimation(.easeOut(duration: duration)) {
