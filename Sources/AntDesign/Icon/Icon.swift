@@ -892,7 +892,6 @@ public struct IconView: View {
             .frame(width: size.width, height: size.height)
             .rotationEffect(.degrees(angle))
             .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: angle)
-            .onAppear { if spin { angle = 360 } }
-            .onDisappear { if spin { angle = 0 } }
+            .onAppear { if spin && angle == 0 { angle = 360 } }
     }
 }
