@@ -1,5 +1,5 @@
 //
-//  ButtonStyle+Attributes+Dashed.swift
+//  ButtonModifier+Attributes+Dashed.swift
 //  
 //
 //  Created by François Boulais on 04/07/2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal extension ButtonStyle.Attributes {
+internal extension ButtonModifier.Attributes {
     static var dashedGhostDanger: Self {
         .init(
             foregroundColor: .error,

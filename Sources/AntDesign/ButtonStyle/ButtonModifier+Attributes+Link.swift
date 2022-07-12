@@ -1,5 +1,5 @@
 //
-//  ButtonStyle+Attributes+Link.swift
+//  ButtonModifier+Attributes+Link.swift
 //  
 //
 //  Created by François Boulais on 04/07/2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal extension ButtonStyle.Attributes {
+internal extension ButtonModifier.Attributes {
     static var linkGhostDanger: Self {
         print("`link` or `text` button can't be a `ghost` button.")
         return linkDanger

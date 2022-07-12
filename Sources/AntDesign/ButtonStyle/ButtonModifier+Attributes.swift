@@ -1,5 +1,5 @@
 //
-//  ButtonStyle+Attributes.swift
+//  ButtonModifier+Attributes.swift
 //  
 //
 //  Created by François Boulais on 01/07/2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-internal extension ButtonStyle {
+internal extension ButtonModifier {
     struct Attributes {
         struct InteractiveColor {
             let pressed: Color
@@ -42,7 +42,7 @@ internal extension ButtonStyle {
     }
 }
 
-extension ButtonStyle {
+extension ButtonModifier {
     internal func attributes(isDanger: Bool) -> Attributes {
         switch (type, isGhost, isDanger, isEnabled) {
         case (.primary, false, false, true):

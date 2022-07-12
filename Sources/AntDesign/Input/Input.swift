@@ -8,13 +8,13 @@
 import SwiftUI
 
 public struct Input: TextFieldStyle {
-    public let size: Size
+    public let size: ComponentSize
     public let systemName: String?
     public let isFocused: Bool
     public let isHovered: Bool
     
     public init(
-        size: Size = .default,
+        size: ComponentSize = .default,
         systemName: String? = nil,
         isFocused: Bool = false,
         isHovered: Bool = false

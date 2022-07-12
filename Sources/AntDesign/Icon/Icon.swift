@@ -843,11 +843,11 @@ public extension Label where Title == Text, Icon == IconView {
     ///    - title: A string used as the label's title.
     ///    - icon: The Ant Design icon (see: https://ant.design/components/icon/)
     ///    - size: The size of the icon
-    init<S>(_ title: S, icon: AntDesign.Icon, size: Size = .default) where S: StringProtocol{
+    init<S>(_ title: S, icon: AntDesign.Icon) where S: StringProtocol{
         self.init {
             Text(title)
         } icon: {
-            IconView(icon: icon, size: size)
+            IconView(icon: icon)
         }
     }
     
@@ -857,25 +857,26 @@ public extension Label where Title == Text, Icon == IconView {
     /// - Parameters:
     ///    - titleKey: A title generated from a localized string.
     ///    - icon: The Ant Design icon (see: https://ant.design/components/icon/)
-    init(_ titleKey: LocalizedStringKey, icon: AntDesign.Icon, size: Size = .default) {
+    init(_ titleKey: LocalizedStringKey, icon: AntDesign.Icon) {
         self.init {
             Text(titleKey)
         } icon: {
-            IconView(icon: icon, size: size)
+            IconView(icon: icon)
         }
     }
 }
 
 public struct IconView: View {
+    @Environment(\.componentSize) internal var componentSize: ComponentSize
+
     private let icon: Icon
-    private let size: CGSize
     private let spin: Bool
+    private var size: CGSize?
     
     @State private var angle: CGFloat = 0
     
-    public init(icon: Icon, size: Size = .default, spin: Bool = false) {
+    public init(icon: Icon, spin: Bool = false) {
         self.icon = icon
-        self.size = size.icon
         self.spin = spin
     }
     
@@ -889,7 +890,10 @@ public struct IconView: View {
         Image(icon.name, bundle: .module)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: size.width, height: size.height)
+            .frame(
+                width: size?.width ?? componentSize.icon.width,
+                height: size?.height ?? componentSize.icon.height
+            )
             .rotationEffect(.degrees(angle))
             .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: angle)
             .onAppear { if spin && angle == 0 { angle = 360 } }

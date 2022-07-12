@@ -1,5 +1,5 @@
 //
-//  ButtonStyle+Attributes+Primary.swift
+//  ButtonModifier+Attributes+Primary.swift
 //  
 //
 //  Created by François Boulais on 04/07/2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal extension ButtonStyle.Attributes {
+internal extension ButtonModifier.Attributes {
     static var primaryGhostDanger: Self {
         .init(
             foregroundColor: .error,

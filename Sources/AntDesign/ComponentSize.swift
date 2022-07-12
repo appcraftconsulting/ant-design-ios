@@ -1,5 +1,5 @@
 //
-//  Size.swift
+//  ComponentSize.swift
 //  
 //
 //  Created by François Boulais on 01/07/2022.
@@ -8,7 +8,24 @@
 import Foundation
 import SwiftUI
 
-public enum Size: String, CaseIterable {
+internal struct ComponentSizeKey: EnvironmentKey {
+    static let defaultValue: ComponentSize = .default
+}
+
+internal extension EnvironmentValues {
+    var componentSize: ComponentSize {
+        get { self[ComponentSizeKey.self] }
+        set { self[ComponentSizeKey.self] = newValue }
+    }
+}
+
+public extension View {
+    func componentSize(_ componentSize: ComponentSize) -> some View {
+        environment(\.componentSize, componentSize)
+    }
+}
+
+public enum ComponentSize: String, CaseIterable {
     case large
     case middle
     case small
