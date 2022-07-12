@@ -872,9 +872,7 @@ public struct IconView: View {
     private let icon: Icon
     private let spin: Bool
     private var size: CGSize?
-    
-    @State private var angle: CGFloat = 0
-    
+        
     public init(icon: Icon, spin: Bool = false) {
         self.icon = icon
         self.spin = spin
@@ -890,12 +888,27 @@ public struct IconView: View {
         Image(icon.name, bundle: .module)
             .resizable()
             .aspectRatio(contentMode: .fit)
+            .modifier(AnimationModifier(spin: spin))
             .frame(
                 width: size?.width ?? componentSize.icon.width,
                 height: size?.height ?? componentSize.icon.height
             )
-            .rotationEffect(.degrees(angle))
-            .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: angle)
-            .onAppear { if spin && angle == 0 { angle = 360 } }
+    }
+    
+    struct AnimationModifier: ViewModifier {
+        let spin: Bool
+        
+        @State private var angle: CGFloat = 0
+        
+        func body(content: Content) -> some View {
+            if spin {
+                content
+                    .rotationEffect(.degrees(angle))
+                    .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: angle)
+                    .onAppear { angle = 360 }
+            } else {
+                content
+            }
+        }
     }
 }

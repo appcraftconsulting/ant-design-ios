@@ -35,11 +35,11 @@ public enum ComponentSize: String, CaseIterable {
     internal var icon: CGSize {
         switch self {
         case .small:
-            return .init(width: 14, height: 14)
-        case .middle:
             return .init(width: 16, height: 16)
-        case .large:
+        case .middle:
             return .init(width: 18, height: 18)
+        case .large:
+            return .init(width: 20, height: 20)
         }
     }
     

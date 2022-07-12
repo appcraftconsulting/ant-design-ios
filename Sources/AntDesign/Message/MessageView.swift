@@ -10,45 +10,31 @@ import SwiftUI
 internal struct MessageView: View {
     let message: Message
 
-    private var icon: Icon {
-        switch message.type {
-        case .success:
-            return .filled(.checkCircle)
-        case .error:
-            return .filled(.closeCircle)
-        case .warning:
-            return .filled(.exclamationCircle)
-        case .info:
-            return .filled(.infoCircle)
-        case .loading:
-            return .outlined(.loading)
-        }
-    }
-    
-    private var iconColor: Color {
-        switch message.type {
-        case .success:
-            return Preferences.successColor
-        case .error:
-            return Preferences.errorColor
-        case .warning:
-            return Preferences.warningColor
-        case .info:
-            return Preferences.infoColor
-        case .loading:
-            return Preferences.primaryColor
-        }
-    }
-
     var body: some View {
-        HStack(alignment: .firstTextBaseline) {
-            IconView(icon: icon, spin: message.type == .loading)
-                .foregroundColor(iconColor)
-            
+        Label {
             Text(message.text)
                 .font(.system(size: Preferences.fontSizeBase))
                 .foregroundColor(Preferences.textColor)
                 .multilineTextAlignment(.center)
+        } icon: {
+            switch message.type {
+            case .success:
+                IconView(icon: .filled(.checkCircle))
+                    .foregroundColor(Preferences.successColor)
+            case .error:
+                IconView(icon: .filled(.closeCircle))
+                    .foregroundColor(Preferences.errorColor)
+            case .warning:
+                IconView(icon: .filled(.exclamationCircle))
+                    .foregroundColor(Preferences.warningColor)
+            case .info:
+                IconView(icon: .filled(.infoCircle))
+                    .foregroundColor(Preferences.infoColor)
+            case .loading:
+                IconView(icon: .outlined(.loading), spin: true)
+                    .foregroundColor(Preferences.primaryColor)
+            }
+            
         }
         .padding(Preferences.messageNoticeContentPadding)
         .background {
