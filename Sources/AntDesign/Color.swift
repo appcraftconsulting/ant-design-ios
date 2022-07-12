@@ -41,6 +41,7 @@ public extension Color {
         case componentBackground = "@component-background"
         case btnDefaultGhostBorder = "@btn-default-ghost-border"
         case btnDefaultGhostColor = "@btn-default-ghost-color"
+        case messageNoticeContentBg = "@message-notice-content-bg"
     }
     
     enum NeutralColorPalette: String {

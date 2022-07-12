@@ -20,8 +20,27 @@ public enum Preferences {
     
     // >>> Info
     public static var infoColorPalette: Color.BaseColorPalette = primaryColorPalette
+    public static var infoColor: Color = .base(infoColorPalette, 6)
     public static var infoColorDeprecatedBg: Color = .base(infoColorPalette, 1)
     public static var infoColorDeprecatedBorder: Color = .base(infoColorPalette, 3)
+    
+    // >>> Success
+    public static var successColorPalette: Color.BaseColorPalette = .green
+    public static var successColor: Color = .base(successColorPalette, 6)
+    public static var successColorHover: Color = .base(successColorPalette, 5)
+    public static var successColorActive: Color = .base(successColorPalette, 7)
+    public static var successColorOutline = successColor.opacity(outlineFade)
+    public static var successColorDeprecatedBg: Color = .base(successColorPalette, 1)
+    public static var successColorDeprecatedBorder: Color = .base(successColorPalette, 3)
+
+    // >>> Warning
+    public static var warningColorPalette: Color.BaseColorPalette = .gold
+    public static var warningColor: Color = .base(warningColorPalette, 6)
+    public static var warningColorHover: Color = .base(warningColorPalette, 5)
+    public static var warningColorActive: Color = .base(warningColorPalette, 7)
+    public static var warningColorOutline = warningColor.opacity(outlineFade)
+    public static var warningColorDeprecatedBg: Color = .base(warningColorPalette, 1)
+    public static var warningColorDeprecatedBorder: Color = .base(warningColorPalette, 3)
     
     // >>> Error
     public static var errorColorPalette: Color.BaseColorPalette = .red
@@ -136,4 +155,9 @@ public enum Preferences {
     public static var switchInnerMarginMax = ceil(switchHeight * 1.1)
     public static var switchSmInnerMarginMin = ceil(switchHeight * 0.3)
     public static var switchSmInnerMarginMax = ceil(switchHeight * 1.1)
+    
+    // Message
+    // ---
+    public static var messageNoticeContentPadding: EdgeInsets = .init(top: 10, leading: 16, bottom: 10, trailing: 16)
+    public static var messageNoticeContentBg: Color = .preferences(.messageNoticeContentBg)
 }
