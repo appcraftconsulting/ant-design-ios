@@ -15,7 +15,7 @@ internal struct PrepareMessageModifier: ViewModifier {
             content
             
             VStack {
-                ForEach(manager.messages) { message in
+                ForEach(manager.messages, id: \.key) { message in
                     MessageView(message: message)
                 }
             }
@@ -28,5 +28,18 @@ public extension View {
     func prepareMessage() -> some View {
         modifier(PrepareMessageModifier())
             .environmentObject(MessageManager())
+    }
+}
+
+struct TestView: View {
+    var body: some View {
+        ProgressView()
+            .progressViewStyle(CustStyle())
+    }
+}
+
+struct CustStyle: ProgressViewStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.currentValueLabel
     }
 }

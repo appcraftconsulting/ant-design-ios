@@ -7,14 +7,9 @@
 
 import Foundation
 
-internal struct Message: Identifiable, Equatable {
+internal struct Message: Equatable {
+    var id: String
     var type: MessageType
     var text: String
     let key: String
-
-    // MARK: - Identifiable
-    
-    var id: String {
-        key
-    }
 }

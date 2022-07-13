@@ -96,6 +96,7 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
             
             Button {
                 configuration.isOn.toggle()
+                generator.impactOccurred()
             } label: {
                 Group {
                     if let child = child(isOn: isOn) {
@@ -145,7 +146,6 @@ public struct ToggleStyle: SwiftUI.ToggleStyle {
                 generator.prepare()
             }
             .onChange(of: isOn) { _ in
-                generator.impactOccurred()
                 tap()
             }
         }
