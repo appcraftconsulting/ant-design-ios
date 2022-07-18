@@ -42,6 +42,7 @@ public extension Color {
         case btnDefaultGhostBorder = "@btn-default-ghost-border"
         case btnDefaultGhostColor = "@btn-default-ghost-color"
         case messageNoticeContentBg = "@message-notice-content-bg"
+        case progressStepsItemBg = "@progress-steps-item-bg"
     }
     
     enum NeutralColorPalette: String {

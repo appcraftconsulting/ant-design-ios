@@ -30,16 +30,3 @@ public extension View {
             .environmentObject(MessageManager())
     }
 }
-
-struct TestView: View {
-    var body: some View {
-        ProgressView()
-            .progressViewStyle(CustStyle())
-    }
-}
-
-struct CustStyle: ProgressViewStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.currentValueLabel
-    }
-}

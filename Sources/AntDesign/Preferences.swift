@@ -160,4 +160,14 @@ public enum Preferences {
     // ---
     public static var messageNoticeContentPadding: EdgeInsets = .init(top: 10, leading: 16, bottom: 10, trailing: 16)
     public static var messageNoticeContentBg: Color = .preferences(.messageNoticeContentBg)
+    
+    // Progress
+    // --
+    public static var progressDefaultColor = processingColor
+    public static var progressRemainingColor = backgroundColorBase
+    public static var progressInfoTextColor = progressTextColor
+    public static var progressRadius: CGFloat = 100
+    public static var progressStepsItemBg: Color = .preferences(.progressStepsItemBg)
+    public static var progressTextColor = textColor // This is for circle text color, should be renamed better
+    public static var progressCircleTextFontSize = fontSizeLg
 }
