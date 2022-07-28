@@ -7,61 +7,7 @@
 
 import SwiftUI
 
-public struct ProgressSuccess {
-    let percent: CGFloat
-    let color: Color
-    
-    public init(percent: CGFloat, color: Color = Preferences.successColor) {
-        self.percent = percent
-        self.color = color
-    }
-}
-
-public enum ProgressStatus {
-    case success
-    case exception
-    case normal
-    case active
-}
-
-public enum ProgressColor {
-    case solid(Color)
-    case gradient(start: Color, end: Color)
-}
-
-public struct LineProgressStyle: ProgressViewStyle {
-    public enum Size {
-        case small
-        case `default`
-        
-        var height: CGFloat {
-            switch self {
-            case .default:
-                return 8
-            case .small:
-                return 6
-            }
-        }
-        
-        var font: CGFloat {
-            switch self {
-            case .default:
-                return Preferences.fontSizeBase
-            case .small:
-                return Preferences.fontSizeSm
-            }
-        }
-        
-        var icon: CGSize {
-            switch self {
-            case .default:
-                return .init(width: 16, height: 16)
-            case .small:
-                return .init(width: 14, height: 14)
-            }
-        }
-    }
-    
+public struct LineProgressStyle: ProgressViewStyle {    
     private struct Line: Shape {
         func path(in rect: CGRect) -> Path {
             var path = Path()
@@ -71,9 +17,16 @@ public struct LineProgressStyle: ProgressViewStyle {
         }
     }
     
-    let size: Size
+    public enum Status {
+        case success
+        case exception
+        case normal
+        case active
+    }
+    
+    let size: ProgressSize
     let showInfo: Bool
-    let status: ProgressStatus
+    let status: Status
     let strokeColor: ProgressColor?
     let strokeLinecap: CGLineCap
     let success: ProgressSuccess?
@@ -84,8 +37,8 @@ public struct LineProgressStyle: ProgressViewStyle {
     }
     
     public init(
-        size: Size = .default,
-        status: ProgressStatus = .normal,
+        size: ProgressSize = .default,
+        status: Status = .normal,
         strokeLinecap: CGLineCap = .round,
         showInfo: Bool = true,
         trailColor: Color = Preferences.progressRemainingColor,
@@ -233,6 +186,35 @@ public struct LineProgressStyle: ProgressViewStyle {
                         progress = 1
                     }
             }
+        }
+    }
+}
+
+fileprivate extension ProgressSize {
+    var height: CGFloat {
+        switch self {
+        case .default:
+            return 8
+        case .small:
+            return 6
+        }
+    }
+    
+    var font: CGFloat {
+        switch self {
+        case .default:
+            return Preferences.fontSizeBase
+        case .small:
+            return Preferences.fontSizeSm
+        }
+    }
+    
+    var icon: CGSize {
+        switch self {
+        case .default:
+            return .init(width: 16, height: 16)
+        case .small:
+            return .init(width: 14, height: 14)
         }
     }
 }
