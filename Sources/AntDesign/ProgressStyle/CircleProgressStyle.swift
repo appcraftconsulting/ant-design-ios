@@ -75,8 +75,8 @@ public struct CircleProgressStyle: ProgressViewStyle {
     let success: ProgressSuccess?
     let trailColor: Color
     
-    var gapDegree: CGFloat = 70
-    var gapPosition: GapPosition = .bottom
+    let gapDegree: CGFloat
+    let gapPosition: GapPosition
     
     public init(
         size: ProgressSize = .default,
@@ -86,7 +86,9 @@ public struct CircleProgressStyle: ProgressViewStyle {
         trailColor: Color = Preferences.progressRemainingColor,
         strokeColor: ProgressColor? = nil,
         strokeWidth: CGFloat = 6,
-        success: ProgressSuccess? = nil
+        success: ProgressSuccess? = nil,
+        gapDegree: CGFloat = 0,
+        gapPosition: GapPosition = .bottom
     ) {
         self.size = size
         self.status = status
@@ -96,6 +98,8 @@ public struct CircleProgressStyle: ProgressViewStyle {
         self.strokeColor = strokeColor
         self.strokeWidth = strokeWidth
         self.success = success
+        self.gapDegree = gapDegree
+        self.gapPosition = gapPosition
     }
     
     private var strokeStyle: StrokeStyle {
@@ -146,13 +150,31 @@ public struct CircleProgressStyle: ProgressViewStyle {
                 Arc(gapDegree: gapDegree, gapPosition: gapPosition)
                     .stroke(trailColor, style: strokeStyle)
                 
-                Arc(gapDegree: gapDegree, gapPosition: gapPosition)
-                    .trim(from: 0, to: progress)
-                    .stroke(progressColor(progress: progress), style: strokeStyle)
+                Group {
+                    if let strokeColor = strokeColor {
+                        switch strokeColor {
+                        case let .solid(color):
+                            Arc(gapDegree: gapDegree, gapPosition: gapPosition)
+                                .trim(from: 0, to: progress)
+                                .stroke(color, style: strokeStyle)
+                        case let .gradient(end, start):
+                            LinearGradient(colors: [start, end], startPoint: .leading, endPoint: .trailing)
+                                .mask {
+                                    Arc(gapDegree: gapDegree, gapPosition: gapPosition)
+                                        .trim(from: 0, to: progress)
+                                        .stroke(.white, style: strokeStyle)
+                                }
+                        }
+                    } else {
+                        Arc(gapDegree: gapDegree, gapPosition: gapPosition)
+                            .trim(from: 0, to: progress)
+                            .stroke(progressColor(progress: progress), style: strokeStyle)
+                    }
+                }
+                .animation(.linear(duration: 0.3), value: progress)
             }
             .rotationEffect(.degrees(-90))
             .frame(width: size.circle - strokeWidth, height: size.circle - strokeWidth)
-            .animation(.linear(duration: 0.3), value: progress)
 
             if showInfo {
                 Group {
@@ -171,7 +193,6 @@ public struct CircleProgressStyle: ProgressViewStyle {
             }
         }
         .padding(strokeWidth / 2)
-        .border(.black)
     }
 }
 

@@ -99,40 +99,41 @@ public struct LineProgressStyle: ProgressViewStyle {
         
         HStack(spacing: Preferences.paddingSm) {
             ZStack(alignment: .leading) {
-                GeometryReader { proxy in
-                    Line()
-                        .stroke(trailColor, style: strokeStyle)
+                Line()
+                    .stroke(trailColor, style: strokeStyle)
 
-                    Group {
-                        if let strokeColor = strokeColor {
-                            switch strokeColor {
-                            case .solid(let color):
-                                Line()
-                                    .stroke(color, style: strokeStyle)
-                                    .frame(width: proxy.size.width * progress)
-                            case .gradient(let start, let end):
-                                LinearGradient(colors: [start, end], startPoint: .leading, endPoint: .trailing)
-                                    .mask(Line().stroke(.white, style: strokeStyle))
-                                    .frame(width: proxy.size.width * progress)
-                            }
-                        } else {
+                Group {
+                    if let strokeColor = strokeColor {
+                        switch strokeColor {
+                        case let .solid(color):
                             Line()
-                                .stroke(progressColor(progress: progress), style: strokeStyle)
-                                .frame(width: proxy.size.width * progress)
+                                .trim(from: 0, to: progress)
+                                .stroke(color, style: strokeStyle)
+                        case let .gradient(start, end):
+                            LinearGradient(colors: [start, end], startPoint: .leading, endPoint: .trailing)
+                                .mask {
+                                    Line()
+                                        .trim(from: 0, to: progress)
+                                        .stroke(.white, style: strokeStyle)
+                                }
                         }
-                    }
-                    .animation(.linear(duration: 0.3), value: progress)
-                    .overlay {
-                        if status == .active {
-                            ActiveView(style: strokeStyle)
-                        }
-                    }
-                    
-                    if let success = success {
+                    } else {
                         Line()
-                            .stroke(success.color, style: strokeStyle)
-                            .frame(width: proxy.size.width * success.percent)
+                            .trim(from: 0, to: progress)
+                            .stroke(progressColor(progress: progress), style: strokeStyle)
                     }
+                }
+                .animation(.linear(duration: 0.3), value: progress)
+                .overlay {
+                    if status == .active {
+                        ActiveView(style: strokeStyle)
+                    }
+                }
+                
+                if let success = success {
+                    Line()
+                        .trim(from: 0, to: progress)
+                        .stroke(success.color, style: strokeStyle)
                 }
             }
             
