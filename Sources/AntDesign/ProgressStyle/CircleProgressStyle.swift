@@ -172,6 +172,12 @@ public struct CircleProgressStyle: ProgressViewStyle {
                     }
                 }
                 .animation(.linear(duration: 0.3), value: progress)
+                
+                if let success = success {
+                    Arc(gapDegree: gapDegree, gapPosition: gapPosition)
+                        .trim(from: 0, to: success.percent)
+                        .stroke(success.color, style: strokeStyle)
+                }
             }
             .rotationEffect(.degrees(-90))
             .frame(width: size.circle - strokeWidth, height: size.circle - strokeWidth)

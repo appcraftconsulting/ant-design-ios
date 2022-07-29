@@ -132,7 +132,7 @@ public struct LineProgressStyle: ProgressViewStyle {
                 
                 if let success = success {
                     Line()
-                        .trim(from: 0, to: progress)
+                        .trim(from: 0, to: success.percent)
                         .stroke(success.color, style: strokeStyle)
                 }
             }
