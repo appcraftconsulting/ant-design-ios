@@ -25,8 +25,6 @@ public extension Color {
     
     enum NeutralColor: String {
         case title = "Title"
-        case primaryText = "Primary text"
-        case secondaryText = "Secondary text"
         case disable = "Disable"
         case border = "Border"
         case dividers = "Dividers"
@@ -43,6 +41,10 @@ public extension Color {
         case btnDefaultGhostColor = "@btn-default-ghost-color"
         case messageNoticeContentBg = "@message-notice-content-bg"
         case progressStepsItemBg = "@progress-steps-item-bg"
+        case headingColor = "@heading-color"
+        case textColor = "@text-color"
+        case textColorSecondary = "@text-color-secondary"
+        case iconColorHover = "@icon-color-hover"
     }
     
     enum NeutralColorPalette: String {

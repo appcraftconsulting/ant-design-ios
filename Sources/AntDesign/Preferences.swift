@@ -74,10 +74,12 @@ public enum Preferences {
     public static var outlineFade: CGFloat = 0.2
     
     public static var backgroundColorBase: Color = .neutral(.disableBackground)
-    public static var textColor: Color = .neutral(.primaryText)
-    public static var textColorSecondary: Color = .neutral(.secondaryText)
+    public static var textColor: Color = .preferences(.textColor)
+    public static var textColorSecondary: Color = .preferences(.textColorSecondary)
     public static var textColorInverse: Color = .white
-    
+    public static var iconColorHover: Color = .preferences(.iconColorHover)
+    public static var headingColor: Color = .preferences(.headingColor)
+
     // Disabled states
     public static var disabledColor: Color = .neutral(.disable)
     public static var disabledBg: Color = .neutral(.disableBackground)
@@ -91,6 +93,7 @@ public enum Preferences {
     public static var fontSizeSm: CGFloat = 13
     public static var borderRadiusBase: CGFloat = 2
     public static var borderRadiusSm = borderRadiusBase
+    public static var lineHeightBase: CGFloat = 1.5715
     
     // Buttons
     public static var btnFontWeight: Font.Weight = .regular
@@ -105,7 +108,7 @@ public enum Preferences {
     public static var btnPrimaryColor: Color = .neutral(.gray, 1)
     public static var btnPrimaryBg = primaryColor
     
-    public static var btnDefaultColor: Color = .neutral(.primaryText)
+    public static var btnDefaultColor: Color = textColor
     public static var btnDefaultBg = componentBackground
     public static var btnDefaultBorder: Color = .neutral(.border)
 
@@ -170,4 +173,34 @@ public enum Preferences {
     public static var progressStepsItemBg: Color = .preferences(.progressStepsItemBg)
     public static var progressTextColor = textColor // This is for circle text color, should be renamed better
     public static var progressCircleTextFontSize = fontSizeLg
+    
+    // Alert
+    // ---
+    public static var alertSuccessBorderColor: Color = .base(successColorPalette, 3)
+    public static var alertSuccessBgColor: Color = .base(successColorPalette, 1)
+    public static var alertSuccessIconColor = successColor
+    public static var alertInfoBorderColor: Color = .base(infoColorPalette, 3)
+    public static var alertInfoBgColor: Color = .base(infoColorPalette, 1)
+    public static var alertInfoIconColor = infoColor
+    public static var alertWarningBorderColor: Color = .base(warningColorPalette, 3)
+    public static var alertWarningBgColor: Color = .base(warningColorPalette, 1)
+    public static var alertWarningIconColor = warningColor
+    public static var alertErrorBorderColor: Color = .base(errorColorPalette, 3)
+    public static var alertErrorBgColor: Color = .base(errorColorPalette, 1)
+    public static var alertErrorIconColor = errorColor
+    public static var alertMessageColor = headingColor
+    public static var alertTextColor = textColor
+    public static var alertCloseColor = textColorSecondary
+    public static var alertCloseHoverColor = iconColorHover
+    public static var alertNoIconPaddingVertical = paddingXs
+    public static var alertWithDescriptionNoIconPaddingVertical = paddingMd - 1
+    public static var alertWithDescriptionPaddingVertical = paddingMd - 1
+    public static var alertWithDescriptionPadding: EdgeInsets = .init(
+        top: alertWithDescriptionPaddingVertical,
+        leading: alertWithDescriptionIconSize,
+        bottom: alertWithDescriptionNoIconPaddingVertical,
+        trailing: 15
+    )
+    public static var alertIconTop = 8 + fontSizeBase * (lineHeightBase / 2) - (fontSizeBase / 2)
+    public static var alertWithDescriptionIconSize: CGFloat = 24
 }

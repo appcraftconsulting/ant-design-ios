@@ -883,6 +883,12 @@ public struct IconView: View {
         self.size = size
         self.spin = spin
     }
+    
+    internal init(icon: Icon, fontSize: CGFloat, spin: Bool = false) {
+        self.icon = icon
+        self.size = .init(width: fontSize, height: fontSize)
+        self.spin = spin
+    }
 
     public var body: some View {
         Image(icon.name, bundle: .module)
