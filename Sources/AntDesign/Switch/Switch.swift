@@ -1,5 +1,5 @@
 //
-//  ToggleStyle.swift
+//  SwitchToggleStyle.swift
 //  
 //
 //  Created by François Boulais on 05/07/2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct ToggleStyle: SwiftUI.ToggleStyle {
+public struct SwitchToggleStyle: SwiftUI.ToggleStyle {
     public enum Size {
         case small
         case `default`
