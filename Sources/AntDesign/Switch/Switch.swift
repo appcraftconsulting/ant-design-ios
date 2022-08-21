@@ -95,8 +95,9 @@ public struct SwitchToggleStyle: SwiftUI.ToggleStyle {
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             Button {
-                configuration.isOn.toggle()
-                generator.impactOccurred()
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    configuration.isOn.toggle()
+                }
             } label: {
                 Group {
                     if let child = child(isOn: isOn) {
@@ -139,7 +140,6 @@ public struct SwitchToggleStyle: SwiftUI.ToggleStyle {
                 }
                 .compositingGroup()
             }
-            .animation(.easeInOut(duration: 0.2), value: isOn)
             .buttonStyle(ButtonStyle(isOn: isOn, isLoading: isLoading, size: size))
             .disabled(isLoading)
             .onAppear() {
@@ -154,6 +154,8 @@ public struct SwitchToggleStyle: SwiftUI.ToggleStyle {
     // MARK: - Private functions
     
     private func tap() {
+        generator.impactOccurred()
+        
         let duration: TimeInterval = 0.4
         
         withAnimation(.easeOut(duration: duration / 2)) {
@@ -201,7 +203,6 @@ public struct SwitchToggleStyle: SwiftUI.ToggleStyle {
                         .foregroundColor(isOn ? Preferences.switchColor : .black.opacity(0.65))
                     }
                 }
-
             }
             .compositingGroup()
             .animation(.easeInOut(duration: 0.2), value: isPressed)
