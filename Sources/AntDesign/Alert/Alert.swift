@@ -173,10 +173,7 @@ public struct Alert: View {
                     Spacer()
                     
                     if isClosable {
-                        Button {
-                            isClosed = true
-                            onClose?()
-                        } label: {
+                        Button(action: close) {
                             Group {
                                 if let closeText = closeText {
                                     Text(closeText)
@@ -205,6 +202,14 @@ public struct Alert: View {
                 }
             }
         }
-        .animation(.default, value: isClosed)
+        .transition(.scale)
+    }
+    
+    // MARK: - Private functions
+    
+    private func close() {
+        withAnimation {
+            isClosed = true
+        }
     }
 }
