@@ -147,26 +147,42 @@ public struct Alert: View {
         Group {
             if !isClosed {
                 HStack(alignment: hasDescription ? .top : .center) {
-                    Label {
-                        VStack(alignment: .leading, spacing: 8) {
+                    if hasDescription {
+                        Label {
+                            VStack(alignment: .leading, spacing: 8) {
+                                if let message = message {
+                                    Text(message)
+                                        .font(.system(size: Preferences.fontSizeLg))
+                                        .foregroundColor(Preferences.alertMessageColor)
+                                        .lineSpacing(4)
+                                }
+                                
+                                if let description = description {
+                                    Text(description)
+                                        .font(.system(size: Preferences.fontSizeBase))
+                                        .foregroundColor(Preferences.alertTextColor)
+                                        .lineSpacing(4)
+                                }
+                            }
+                        } icon: {
+                            if showIcon {
+                                IconView(icon: icon, fontSize: Preferences.alertWithDescriptionIconSize)
+                                    .foregroundColor(type.iconColor)
+                            }
+                        }
+                    } else {
+                        HStack(alignment: .center) {
+                            if showIcon {
+                                IconView(icon: icon, fontSize: Preferences.fontSizeLg)
+                                    .foregroundColor(type.iconColor)
+                            }
+                            
                             if let message = message {
                                 Text(message)
-                                    .font(.system(size: hasDescription ? Preferences.fontSizeLg : Preferences.fontSizeBase))
+                                    .font(.system(size: Preferences.fontSizeBase))
                                     .foregroundColor(Preferences.alertMessageColor)
                                     .lineSpacing(4)
                             }
-                            
-                            if let description = description {
-                                Text(description)
-                                    .font(.system(size: Preferences.fontSizeBase))
-                                    .foregroundColor(Preferences.alertTextColor)
-                                    .lineSpacing(4)
-                            }
-                        }
-                    } icon: {
-                        if showIcon {
-                            IconView(icon: icon, fontSize: hasDescription ? Preferences.alertWithDescriptionIconSize : Preferences.fontSizeLg)
-                                .foregroundColor(type.iconColor)
                         }
                     }
                     
