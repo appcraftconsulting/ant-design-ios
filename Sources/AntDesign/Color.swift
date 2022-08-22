@@ -45,6 +45,9 @@ public extension Color {
         case textColor = "@text-color"
         case textColorSecondary = "@text-color-secondary"
         case iconColorHover = "@icon-color-hover"
+        case cardSkeletonBg = "@card-skeleton-bg"
+        case borderColorBase = "@border-color-base"
+        case borderColorSplit = "@border-color-split"
     }
     
     enum NeutralColorPalette: String {

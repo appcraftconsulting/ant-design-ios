@@ -193,6 +193,7 @@ public struct Alert: View {
                             Group {
                                 if let closeText = closeText {
                                     Text(closeText)
+                                        .font(.system(size: Preferences.fontSizeSm))
                                 } else {
                                     IconView(
                                         icon: closeIcon,

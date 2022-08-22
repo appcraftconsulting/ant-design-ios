@@ -52,7 +52,9 @@ public enum Preferences {
     public static var errorColorDeprecatedBorder: Color = .base(errorColorPalette, 3)
     
     // Border color
-    public static var borderColorSplit : Color = .black.opacity(0.94)
+    public static var borderColorBase: Color = .preferences(.borderColorBase)
+    public static var borderColorSplit : Color = .preferences(.borderColorSplit)
+    public static var borderColorInverse: Color = .white
     public static var borderWidthBase: CGFloat = 1 // width of the border for a component
     public static var borderStyleBase: BorderStyle = .solid // style of a components border
     
@@ -203,4 +205,25 @@ public enum Preferences {
     )
     public static var alertIconTop = 8 + fontSizeBase * (lineHeightBase / 2) - (fontSizeBase / 2)
     public static var alertWithDescriptionIconSize: CGFloat = 24
+    
+    // Card
+    // ---
+    public static var cardHeadColor = headingColor
+    public static var cardHeadBackground: Color = .clear
+    public static var cardHeadFontSize = fontSizeLg
+    public static var cardHeadFontSizeSm = fontSizeBase
+    public static var cardHeadPadding: CGFloat = 16
+    public static var cardHeadPaddingSm = cardHeadPadding / 2
+    public static var cardHeadHeight: CGFloat = 48
+    public static var cardHeadHeightSm: CGFloat = 36
+    public static var cardInnerHeadPadding: CGFloat = 12
+    public static var cardPaddingBase: CGFloat = 24
+    public static var cardPaddingBaseSm = cardPaddingBase / 2
+    public static var cardActionsBackground = componentBackground
+    public static var cardActionsLiMargin: EdgeInsets = .init(top: 12, leading: 0, bottom: 12, trailing: 0)
+    public static var cardSkeletonBg: Color = .preferences(.cardSkeletonBg)
+    public static var cardBackground = componentBackground
+    public static var cardRadius = borderRadiusBase
+    public static var cardHeadTabsMarginBottom: CGFloat = -17
+    public static var cardHeadExtraColor = textColor
 }
