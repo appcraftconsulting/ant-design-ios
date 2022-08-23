@@ -15,7 +15,6 @@ public struct CardGroupBoxStyle: GroupBoxStyle {
     
     private let size: Size
     private let isInner: Bool
-    private let isLoading: Bool
     private let isBordered: Bool
     
     private var cardHeadFontSize: CGFloat {
@@ -54,10 +53,9 @@ public struct CardGroupBoxStyle: GroupBoxStyle {
         }
     }
     
-    public init(size: Size = .default, isInner: Bool = false, isLoading: Bool = false, isBordered: Bool = true) {
+    public init(size: Size = .default, isInner: Bool = false, isBordered: Bool = true) {
         self.size = size
         self.isInner = isInner
-        self.isLoading = isLoading
         self.isBordered = isBordered
     }
     
