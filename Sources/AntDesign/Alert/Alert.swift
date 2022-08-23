@@ -79,29 +79,29 @@ public struct Alert: View {
     
     @State private var isClosed = false
     
-    /// Type of Alert styles, options: `success`, `info`, `warning`, `error`
-    let type: `Type`
-    /// Whether to show as banner
-    let isBanner: Bool
-    /// Whether Alert can be closed
-    let isClosable: Bool
-    /// Custom close icon
-    let closeIcon: Icon
-    /// Additional content of Alert
-    let description: String?
-    /// Custom icon, effective when `showIcon` is true
-    let icon: Icon
-    /// Content of Alert
-    let message: String?
-    /// Whether to show icon
-    let showIcon: Bool
-    /// Callback when Alert is closed
-    let onClose: (() -> Void)?
-    /// Close text to show
-    let closeText: String?
+    internal let type: `Type`
+    internal let isBanner: Bool
+    internal let isClosable: Bool
+    internal let closeIcon: Icon
+    internal let description: String?
+    internal let icon: Icon?
+    internal let message: String?
+    internal let showIcon: Bool
+    internal let onClose: (() -> Void)?
+    internal let closeText: String?
+    
+    internal let isError: Bool
     
     private var hasDescription: Bool {
         description != nil
+    }
+    
+    private var descriptionFont: Font {
+        if isError {
+            return .system(size: Preferences.fontSizeBase, weight: .medium).monospaced()
+        } else {
+            return .system(size: Preferences.fontSizeBase)
+        }
     }
     
     private var padding: EdgeInsets {
@@ -119,30 +119,6 @@ public struct Alert: View {
         }
     }
     
-    public init(
-        type: `Type`? = nil,
-        message: String? = nil,
-        description: String? = nil,
-        icon: Icon? = nil,
-        showIcon: Bool? = nil,
-        isBanner: Bool = false,
-        isClosable: Bool = false,
-        closeIcon: Icon = .outlined(.close),
-        closeText: String? = nil,
-        onClose: (() -> Void)? = nil
-    ) {
-        self.type = type ?? (isBanner ? .warning : .info)
-        self.message = message
-        self.description = description
-        self.icon = icon ?? self.type.icon(hasDescription: description != nil)
-        self.showIcon = showIcon ?? isBanner ? true : false
-        self.isBanner = isBanner
-        self.isClosable = closeText != nil ? true : isClosable
-        self.closeIcon = closeIcon
-        self.closeText = closeText
-        self.onClose = onClose
-    }
-    
     public var body: some View {
         Group {
             if !isClosed {
@@ -152,28 +128,28 @@ public struct Alert: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 if let message = message {
                                     Text(message)
-                                        .font(.system(size: Preferences.fontSizeLg))
+                                        .font(.system(size: Preferences.fontSizeLg, weight: .medium))
                                         .foregroundColor(Preferences.alertMessageColor)
                                         .lineSpacing(4)
                                 }
                                 
                                 if let description = description {
                                     Text(description)
-                                        .font(.system(size: Preferences.fontSizeBase))
+                                        .font(descriptionFont)
                                         .foregroundColor(Preferences.alertTextColor)
                                         .lineSpacing(4)
                                 }
                             }
                         } icon: {
                             if showIcon {
-                                IconView(icon: icon, fontSize: Preferences.alertWithDescriptionIconSize)
+                                IconView(icon: icon ?? type.icon(hasDescription: true), fontSize: Preferences.alertWithDescriptionIconSize)
                                     .foregroundColor(type.iconColor)
                             }
                         }
                     } else {
                         HStack(alignment: .center) {
                             if showIcon {
-                                IconView(icon: icon, fontSize: Preferences.fontSizeLg)
+                                IconView(icon: icon ?? type.icon(hasDescription: false), fontSize: Preferences.fontSizeLg)
                                     .foregroundColor(type.iconColor)
                             }
                             
@@ -228,5 +204,66 @@ public struct Alert: View {
         withAnimation {
             isClosed = true
         }
+    }
+}
+
+public extension Alert {
+    /// Alert component for feedback.
+    /// - Parameters:
+    ///   - type: Type of Alert styles, options: `success`, `info`, `warning`, `error`
+    ///   - message: Content of Alert
+    ///   - description: Additional content of Alert
+    ///   - icon: Custom icon, effective when `showIcon` is true
+    ///   - showIcon: Whether to show icon
+    ///   - isBanner: Whether to show as banner
+    ///   - isClosable: Whether Alert can be closed
+    ///   - closeIcon: Custom close icon
+    ///   - closeText: Close text to show
+    ///   - onClose: Callback when Alert is closed
+    init(
+        type: `Type`? = nil,
+        message: String? = nil,
+        description: String? = nil,
+        icon: Icon? = nil,
+        showIcon: Bool? = nil,
+        isBanner: Bool = false,
+        isClosable: Bool = false,
+        closeIcon: Icon = .outlined(.close),
+        closeText: String? = nil,
+        onClose: (() -> Void)? = nil
+    ) {
+        self.type = type ?? (isBanner ? .warning : .info)
+        self.message = message
+        self.description = description
+        self.icon = icon
+        self.showIcon = showIcon ?? isBanner ? true : false
+        self.isBanner = isBanner
+        self.isClosable = closeText != nil ? true : isClosable
+        self.closeIcon = closeIcon
+        self.closeText = closeText
+        self.onClose = onClose
+        self.isError = false
+    }
+    
+    /// ErrorBoundary Component for making error handling easier in Swift
+    /// - Parameter error: Custom error to show
+    init(error: Error) {
+        let nsError = error as NSError
+        let message = "Error: \(nsError.code)"
+        let description = nsError.debugDescription
+        
+        self.init(
+            type: .error,
+            isBanner: false,
+            isClosable: false,
+            closeIcon: .outlined(.close),
+            description: description,
+            icon: nil,
+            message: message,
+            showIcon: false,
+            onClose: nil,
+            closeText: nil,
+            isError: true
+        )
     }
 }
