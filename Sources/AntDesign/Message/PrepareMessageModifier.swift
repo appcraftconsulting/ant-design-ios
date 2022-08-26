@@ -11,16 +11,15 @@ internal struct PrepareMessageModifier: ViewModifier {
     @EnvironmentObject var manager: MessageManager
 
     func body(content: Content) -> some View {
-        ZStack(alignment: .top) {
-            content
-            
-            VStack {
-                ForEach(manager.messages, id: \.key) { message in
-                    MessageView(message: message)
+        content
+            .overlay(alignment: .top) {
+                VStack {
+                    ForEach(manager.messages, id: \.key) { message in
+                        MessageView(message: message)
+                    }
                 }
             }
-        }
-        .animation(.default, value: manager.messages)
+            .animation(.default, value: manager.messages)
     }
 }
 

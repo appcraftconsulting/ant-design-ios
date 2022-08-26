@@ -107,14 +107,14 @@ public enum Preferences {
     public static var btnPrimaryShadow: Shadow = .init(color: .black.opacity(0.045), offset: .init(x: 0, y: 2))
     public static var btnTextShadow: Shadow = .init(color: .black.opacity(0.120), offset: .init(x: 0, y: -1))
     
-    public static var btnPrimaryColor: Color = .neutral(.gray, 1)
+    public static var btnPrimaryColor: Color = .white
     public static var btnPrimaryBg = primaryColor
     
     public static var btnDefaultColor: Color = textColor
     public static var btnDefaultBg = componentBackground
     public static var btnDefaultBorder: Color = .neutral(.border)
 
-    public static var btnDangerColor: Color = .neutral(.gray, 1)
+    public static var btnDangerColor: Color = .white
     public static var btnDangerBg: Color = .functional(.error)
     public static var btnDangerBorder: Color = .functional(.error)
     

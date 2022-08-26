@@ -18,7 +18,7 @@ public extension Color {
         case green
         case cyan
         case blue
-        case geekplue
+        case geekblue
         case purple
         case magenta
     }

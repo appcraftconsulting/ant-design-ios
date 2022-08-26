@@ -20,8 +20,8 @@ internal final class MessageManager: ObservableObject {
     }
     
     internal func presentMessage(with id: String, type: MessageType, text: String, duration: TimeInterval?, key: String) {
-        if let timer = timers[key], let index = messages.firstIndex(where: { $0.key == key }) {
-            timer.invalidate()
+        if let index = messages.firstIndex(where: { $0.key == key }) {
+            timers[key]?.invalidate()
             messages[index].id = id
             messages[index].type = type
             messages[index].text = text
