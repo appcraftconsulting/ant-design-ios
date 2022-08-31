@@ -48,6 +48,8 @@ public extension Color {
         case cardSkeletonBg = "@card-skeleton-bg"
         case borderColorBase = "@border-color-base"
         case borderColorSplit = "@border-color-split"
+        case itemHoverBg = "@item-hover-bg"
+        case selectMultipleItemDisabledColor = "@select-multiple-item-disabled-color"
     }
     
     enum NeutralColorPalette: String {

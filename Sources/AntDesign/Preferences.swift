@@ -70,6 +70,11 @@ public enum Preferences {
     public static var heightLg: CGFloat = 40
     public static var heightSm: CGFloat = 24
     
+    // The background colors for active and hover states for things like
+    // list items or table cells.
+    public static var itemActiveBg: Color = .base(primaryColorPalette, 1)
+    public static var itemHoverBg: Color = .preferences(.itemHoverBg)
+    
     // Outline
     public static var outlineBlurSize: CGFloat = 0
     public static var outlineWidth: CGFloat = 2
@@ -226,4 +231,36 @@ public enum Preferences {
     public static var cardRadius = borderRadiusBase
     public static var cardHeadTabsMarginBottom: CGFloat = -17
     public static var cardHeadExtraColor = textColor
+    
+    // Select
+    // ---
+    public static var selectBorderColor = borderColorBase
+    public static var selectItemSelectedColor = textColor
+    public static var selectItemSelectedFontWeight: Font.Weight = .bold
+    public static var selectDropdownBg = componentBackground
+    public static var selectItemSelectedBg: Color = .base(primaryColorPalette, 1)
+    public static var selectItemActiveBg = itemHoverBg
+    public static var selectDropdownVerticalPadding = dropdownVerticalPadding
+    public static var selectDropdownFontSize = dropdownFontSize
+    public static var selectDropdownLineHeight = dropdownLineHeight
+    public static var selectDropdownHeight: CGFloat = 32
+    public static var selectBackground = componentBackground
+    public static var selectClearBackground = selectBackground
+    public static var selectSelectionItemBg = backgroundColorBase
+    public static var selectSelectionItemBorderColor = borderColorSplit
+    public static var selectSingleItemHeightLg: CGFloat = 40
+//    public static var selectMultipleItemHight = inputHeightBase - inputPaddingVerticalBase * 2
+    public static var selectMultipleItemHeightLg: CGFloat = 32
+//    public static var selectMultipleItemSpacingHalf = ceil((inputPaddingVerticalBase / 2))
+//    public static var selectMultipleDisabledBackground = inputDisabledBg
+    public static var selectMultipleItemDisabledColor: Color = .preferences(.selectMultipleItemDisabledColor)
+    public static var selectMultipleItemDisabledBorderColor = selectBorderColor
+    
+    //Dropdown
+    public static var dropdownMenuBg = componentBackground
+    public static var dropdownVerticalPadding: CGFloat = 5
+    public static var dropdownEdgeChildVerticalPadding: CGFloat = 4
+    public static var dropdownFontSize = fontSizeBase
+    public static var dropdownLineHeight: CGFloat = 22
+
 }
