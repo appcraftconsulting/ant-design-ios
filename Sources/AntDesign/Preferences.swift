@@ -262,5 +262,10 @@ public enum Preferences {
     public static var dropdownEdgeChildVerticalPadding: CGFloat = 4
     public static var dropdownFontSize = fontSizeBase
     public static var dropdownLineHeight: CGFloat = 22
-
+    
+    // Spin
+    // ---
+    public static var spinDotSizeSm: CGFloat = 14
+    public static var spinDotSize: CGFloat = 20
+    public static var spinDotSizeLg: CGFloat = 32
 }
