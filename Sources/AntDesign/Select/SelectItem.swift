@@ -19,24 +19,44 @@ public struct SelectItem: View {
     }
     
     public var body: some View {
-        Button {
+        Button(title) {
             isSelected.toggle()
-        } label: {
-            HStack(alignment: .center) {
-                Text(title)
-                    .foregroundColor(isEnabled ? Preferences.textColor : Preferences.disabledColor)
-                    .fontWeight(isSelected ? .bold : .regular)
-                    .lineLimit(1)
-                
-                if isSelected {
-                    Spacer()
-                    Image(systemName: "checkmark")
-                        .foregroundColor(Preferences.primaryColor)
-                }
+        }
+        .buttonStyle(SelectItemButtonStyle(isSelected: isSelected, isEnabled: isEnabled))
+    }
+}
+
+fileprivate struct SelectItemButtonStyle: SwiftUI.ButtonStyle {
+    internal let isSelected: Bool
+    internal let isEnabled: Bool
+    
+    func makeBody(configuration: Configuration) -> some View {
+
+        HStack(alignment: .center) {
+            configuration.label
+                .foregroundColor(isEnabled ? Preferences.textColor : Preferences.disabledColor)
+                .font(.system(size: Preferences.selectDropdownFontSize, weight: isSelected ? .bold : .regular))
+                .lineLimit(1)
+            
+            Spacer()
+
+            if isSelected {
+                Image(systemName: "checkmark")
+                    .foregroundColor(Preferences.primaryColor)
+                    .font(.system(size: Preferences.selectDropdownFontSize))
             }
         }
-        .font(.system(size: Preferences.selectDropdownFontSize))
-        .listRowBackground(isSelected ? Preferences.selectItemSelectedBg : Preferences.selectClearBackground)
-        .listRowSeparator(.hidden)
+        .frame(maxWidth: .infinity)
+        .frame(height: Preferences.selectDropdownHeight)
+        .padding(.horizontal)
+        .background {
+            if isSelected {
+                Preferences.selectItemSelectedBg
+            } else if configuration.isPressed {
+                Preferences.selectItemActiveBg
+            } else {
+                Preferences.selectClearBackground
+            }
+        }
     }
 }
