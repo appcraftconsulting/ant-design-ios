@@ -25,11 +25,9 @@ public extension Color {
     
     enum NeutralColor: String {
         case title = "Title"
-        case disable = "Disable"
         case border = "Border"
         case dividers = "Dividers"
         case background = "Background"
-        case disableBackground = "Disable background"
         case tableHeader = "Table header"
     }
     
@@ -50,6 +48,9 @@ public extension Color {
         case borderColorSplit = "@border-color-split"
         case itemHoverBg = "@item-hover-bg"
         case selectMultipleItemDisabledColor = "@select-multiple-item-disabled-color"
+        case disabledColor = "@disabled-color"
+        case backgroundColorLight = "@background-color-light"
+        case backgroundColorBase = "@background-color-base"
     }
     
     enum NeutralColorPalette: String {

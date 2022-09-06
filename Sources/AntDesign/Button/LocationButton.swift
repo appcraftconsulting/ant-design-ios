@@ -36,14 +36,5 @@ public struct LocationButton: View {
             .font(.system(size: size.font, weight: Preferences.btnFontWeight))
             .cornerRadius(cornerRadius)
             .padding(Preferences.btnBorderWidth / 2)
-            .background {
-                ZStack {
-                    RoundedRectangle(cornerRadius: cornerRadius + Preferences.btnBorderWidth / 2)
-                        .fill(isEnabled ? Preferences.btnPrimaryBg : Preferences.btnDisableBg)
-                    
-                    RoundedRectangle(cornerRadius: cornerRadius + Preferences.btnBorderWidth / 2)
-                        .stroke(isEnabled ? Preferences.btnPrimaryBg : Preferences.btnDisableColor, lineWidth: Preferences.btnBorderWidth)
-                }
-            }
     }
 }

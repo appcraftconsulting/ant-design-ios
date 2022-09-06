@@ -52,11 +52,15 @@ public enum Preferences {
     public static var errorColorDeprecatedBorder: Color = .base(errorColorPalette, 3)
     
     // Border color
+    /// base border outline a component
     public static var borderColorBase: Color = .preferences(.borderColorBase)
+    /// split border inside a component
     public static var borderColorSplit : Color = .preferences(.borderColorSplit)
     public static var borderColorInverse: Color = .white
-    public static var borderWidthBase: CGFloat = 1 // width of the border for a component
-    public static var borderStyleBase: BorderStyle = .solid // style of a components border
+    /// width of the border for a component
+    public static var borderWidthBase: CGFloat = 1
+    /// style of a components border
+    public static var borderStyleBase: BorderStyle = .solid
     
     // vertical paddings
     public static var paddingLg: CGFloat = 24 // containers
@@ -80,7 +84,11 @@ public enum Preferences {
     public static var outlineWidth: CGFloat = 2
     public static var outlineFade: CGFloat = 0.2
     
-    public static var backgroundColorBase: Color = .neutral(.disableBackground)
+    /// background of header and selected item
+    public static var backgroundColorLight: Color = .preferences(.backgroundColorLight)
+    /// Default grey background color
+    public static var backgroundColorBase: Color = .preferences(.backgroundColorBase)
+    
     public static var textColor: Color = .preferences(.textColor)
     public static var textColorSecondary: Color = .preferences(.textColorSecondary)
     public static var textColorInverse: Color = .white
@@ -88,8 +96,8 @@ public enum Preferences {
     public static var headingColor: Color = .preferences(.headingColor)
 
     // Disabled states
-    public static var disabledColor: Color = .neutral(.disable)
-    public static var disabledBg: Color = .neutral(.disableBackground)
+    public static var disabledColor: Color = .preferences(.disabledColor)
+    public static var disabledBg: Color = backgroundColorBase
     public static var disabledActiveBg: Color = .black.opacity(0.90)
     
     // Base background color for most components
