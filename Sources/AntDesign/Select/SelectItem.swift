@@ -46,6 +46,7 @@ fileprivate struct SelectItemButtonStyle: SwiftUI.ButtonStyle {
                     .font(.system(size: Preferences.selectDropdownFontSize))
             }
         }
+        .animation(nil, value: isSelected)
         .frame(maxWidth: .infinity)
         .frame(height: Preferences.selectDropdownHeight)
         .padding(.horizontal)
