@@ -54,6 +54,10 @@ public extension Color {
         case tableBodySortBg = "@table-body-sort-bg"
         case tableExpandedRowBg = "@table-expanded-row-bg"
         case tableHeaderCellSplitColor = "@table-header-cell-split-color"
+        case radioSolidCheckedColor = "@radio-solid-checked-color"
+        case radioDotDisabledColor = "@radio-dot-disabled-color"
+        case radioDisabledButtonCheckedBg = "@radio-disabled-button-checked-bg"
+        case inputIconHoverColor = "@input-icon-hover-color"
     }
     
     enum NeutralColorPalette: String {

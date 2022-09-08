@@ -244,6 +244,50 @@ public enum Preferences {
     public static var cardHeadTabsMarginBottom: CGFloat = -17
     public static var cardHeadExtraColor = textColor
     
+    // Input
+    // ---
+    public static var inputHeightBase = heightBase
+    public static var inputHeightLg = heightLg
+    public static var inputHeightSm = heightSm
+//    @input-padding-horizontal: @control-padding-horizontal - 1px;
+//    @input-padding-horizontal-base: @input-padding-horizontal;
+//    @input-padding-horizontal-sm: @control-padding-horizontal-sm - 1px;
+//    @input-padding-horizontal-lg: @input-padding-horizontal;
+//    @input-padding-vertical-base: max(
+//      (round(((@input-height-base - @font-size-base * @line-height-base) / 2) * 10) / 10) -
+//        @border-width-base,
+//      3px
+//    );
+//    @input-padding-vertical-sm: max(
+//      (round(((@input-height-sm - @font-size-base * @line-height-base) / 2) * 10) / 10) -
+//        @border-width-base,
+//      0
+//    );
+//    @input-padding-vertical-lg: (
+//        ceil(((@input-height-lg - @font-size-lg * @line-height-base) / 2) * 10) / 10
+//      ) - @border-width-base;
+//    @input-placeholder-color: hsv(0, 0, 75%);
+//    @input-color: @text-color;
+//    @input-icon-color: @input-color;
+//    @input-border-color: @border-color-base;
+//    @input-bg: @component-background;
+//    @input-number-hover-border-color: @input-hover-border-color;
+//    @input-number-handler-active-bg: #f4f4f4;
+//    @input-number-handler-hover-bg: @primary-5;
+//    @input-number-handler-bg: @component-background;
+//    @input-number-handler-border-color: @border-color-base;
+//    @input-addon-bg: @background-color-light;
+//    @input-hover-border-color: @primary-5;
+    public static var inputDisabledBg = disabledBg
+    public static var inputOutlineOffset: CGPoint = .init(x: 0, y: 0)
+    public static var inputIconHoverColor: Color = .preferences(.inputIconHoverColor)
+    public static var inputDisabledColor = disabledColor
+
+    // Mentions
+    // ---
+    public static var mentionsDropdownBg = componentBackground
+    public static var mentionsDropdownMenuItemHoverBg = mentionsDropdownBg
+    
     // Select
     // ---
     public static var selectBorderColor = borderColorBase
@@ -274,6 +318,29 @@ public enum Preferences {
     public static var dropdownEdgeChildVerticalPadding: CGFloat = 4
     public static var dropdownFontSize = fontSizeBase
     public static var dropdownLineHeight: CGFloat = 22
+    
+    // Empty
+    public static var emptyFontSize = fontSizeBase
+
+    // Radio
+    public static var radioSize: CGFloat = 16
+    public static var radioTop = 0.2 * fontSizeBase
+    public static var radioBorderWidth: CGFloat = 1
+    public static var radioDotSize = radioSize - 8
+    public static var radioDotColor = primaryColor
+    public static var radioDotDisabledColor: Color = .preferences(.radioDotDisabledColor)
+    public static var radioSolidCheckedColor: Color = .preferences(.radioSolidCheckedColor)
+
+    // Radio buttons
+    public static var radioButtonBg = btnDefaultBg
+    public static var radioButtonCheckedBg = btnDefaultBg
+    public static var radioButtonColor = btnDefaultColor
+    public static var radioButtonHoverColor: Color = .base(primaryColorPalette, 5)
+    public static var radioButtonActiveColor: Color = .base(primaryColorPalette, 7)
+    public static var radioButtonPaddingHorizontal = paddingMd - 1
+    public static var radioDisabledButtonCheckedBg: Color = .preferences(.radioDisabledButtonCheckedBg)
+    public static var radioDisabledButtonCheckedColor = disabledColor
+    public static var radioWrapperMarginRight: CGFloat = 8
     
     // Spin
     // ---

@@ -8,6 +8,8 @@
 import SwiftUI
 
 public struct TableRow: View {
+    @Environment(\.isEnabled) private var isEnabled: Bool
+
     public enum SelectionType {
         case checkbox, radio
     }
@@ -40,19 +42,13 @@ public struct TableRow: View {
     }
     
     public var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Button {
                 isSelected.toggle()
             } label: {
-                HStack(spacing: Preferences.tablePaddingHorizontal) {
-                    Rectangle()
-                        .fill(Color.blue)
-                        .frame(width: 14, height: 14)
-                    
-                    Text(title)
-                        .font(.system(size: fontSize))
-                        .foregroundColor(Preferences.textColor)
-                }
+                Toggle(title, isOn: $isSelected)
+                    .toggleStyle(RadioToggleStyle())
+                    .labelsHidden()
             }
             
             Preferences.tableBorderColor
