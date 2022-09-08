@@ -20,15 +20,15 @@ internal struct RadioToggleStyle: ToggleStyle {
 
 struct RadioButtonStyle: SwiftUI.ButtonStyle {
     @Environment(\.isEnabled) private var isEnabled: Bool
-    @Binding var isOn: Bool
     @State private var ringOpacity: CGFloat = 0
     @State private var ringScale: CGFloat = 1
+    @Binding var isOn: Bool
     
-    func borderColor(isOn: Bool) -> Color {
-        if !isEnabled || !isOn {
-            return Preferences.borderColorBase
-        } else {
+    func borderColor(isPressed: Bool) -> Color {
+        if (isOn && isEnabled) || isPressed {
             return Preferences.radioDotColor
+        } else {
+            return Preferences.borderColorBase
         }
     }
     
@@ -49,15 +49,18 @@ struct RadioButtonStyle: SwiftUI.ButtonStyle {
     }
     
     func makeBody(configuration: Configuration) -> some View {
-        return HStack(spacing: 0) {
+        return HStack {
             ZStack {
                 Circle()
                     .fill(fillColor)
                 
                 Circle()
-                    .stroke(borderColor(isOn: isOn))
+                    .stroke(borderColor(isPressed: configuration.isPressed))
             }
-            .frame(height: Preferences.radioSize)
+            .frame(
+                width: Preferences.radioSize,
+                height: Preferences.radioSize
+            )
             .background {
                 Circle()
                     .stroke(Preferences.radioDotColor)
@@ -74,8 +77,11 @@ struct RadioButtonStyle: SwiftUI.ButtonStyle {
             }
             
             configuration.label
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.system(size: Preferences.fontSizeBase))
+                .foregroundColor(isEnabled ? Preferences.textColor : Preferences.disabledColor)
                 .padding(.horizontal, 8)
+            
+            Spacer()
         }
         .animation(.linear(duration: 0.3), value: isOn)
         .animation(.linear(duration: 0.3), value: isEnabled)
