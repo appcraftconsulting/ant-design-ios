@@ -51,6 +51,9 @@ public extension Color {
         case disabledColor = "@disabled-color"
         case backgroundColorLight = "@background-color-light"
         case backgroundColorBase = "@background-color-base"
+        case tableBodySortBg = "@table-body-sort-bg"
+        case tableExpandedRowBg = "@table-expanded-row-bg"
+        case tableHeaderCellSplitColor = "@table-header-cell-split-color"
     }
     
     enum NeutralColorPalette: String {

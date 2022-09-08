@@ -100,8 +100,12 @@ public enum Preferences {
     public static var disabledBg: Color = backgroundColorBase
     public static var disabledActiveBg: Color = .black.opacity(0.90)
     
-    // Base background color for most components
+    /// Background color for `<body>`
+    public static var bodyBackground: Color = .preferences(.bodyBackground)
+    /// Base background color for most components
     public static var componentBackground: Color = .preferences(.componentBackground)
+    /// Popover background color
+    public static var popoverBackground = componentBackground
     
     public static var fontSizeBase: CGFloat = 15
     public static var fontSizeLg = fontSizeBase + 2
@@ -276,4 +280,33 @@ public enum Preferences {
     public static var spinDotSizeSm: CGFloat = 14
     public static var spinDotSize: CGFloat = 20
     public static var spinDotSizeLg: CGFloat = 32
+    
+    // Table
+    // --
+    public static var tableBg = componentBackground
+    public static var tableHeaderBg = backgroundColorLight
+    public static var tableHeaderColor = headingColor
+    public static var tableHeaderSortBg = backgroundColorBase
+    public static var tableBodySortBg: Color = .preferences(.tableBodySortBg)
+    public static var tableRowHoverBg = backgroundColorLight
+//    @table-selected-row-color: inherit;
+    public static var tableSelectedRowBg: Color = .base(primaryColorPalette, 1)
+    public static var tableBodySelectedSortBg = tableSelectedRowBg
+//    @table-selected-row-hover-bg: darken(@table-selected-row-bg, 2%);
+    public static var tableExpandedRowBg: Color = .preferences(.tableExpandedRowBg)
+    public static var tablePaddingVertical: CGFloat = 16
+    public static var tablePaddingHorizontal: CGFloat = 16
+    public static var tablePaddingVerticalMd = tablePaddingVertical * 3 / 4
+    public static var tablePaddingHorizontalMd = tablePaddingHorizontal / 2
+    public static var tablePaddingVerticalSm = tablePaddingVertical / 2
+    public static var tablePaddingHorizontalSm = tablePaddingHorizontal / 2
+    public static var tableBorderColor = borderColorSplit
+    public static var tableBorderRadiusBase = borderRadiusBase
+    public static var tableFooterBg = backgroundColorLight
+    public static var tableFooterColor = headingColor
+    public static var tableHeaderBgSm = tableHeaderBg
+    public static var tableFontSize = fontSizeBase
+    public static var tableFontSizeMd = tableFontSize
+    public static var tableFontSizeSm = tableFontSize
+    public static var tableHeaderCellSplitColor: Color = .preferences(.tableHeaderCellSplitColor)
 }
