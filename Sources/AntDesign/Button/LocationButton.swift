@@ -31,8 +31,8 @@ public struct LocationButton: View {
     
     public var body: some View {
         CoreLocationUI.LocationButton(title, action: action)
-            .tint(isEnabled ? Preferences.btnPrimaryBg : Preferences.btnDisableBg)
-            .foregroundColor(isEnabled ? Preferences.btnPrimaryColor : Preferences.btnDisableColor)
+            .tint(Preferences.btnPrimaryBg)
+            .foregroundColor(Preferences.btnPrimaryColor)
             .font(.system(size: size.font, weight: Preferences.btnFontWeight))
             .cornerRadius(cornerRadius)
             .padding(Preferences.btnBorderWidth / 2)
