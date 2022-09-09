@@ -24,6 +24,8 @@ struct RadioButtonStyle: SwiftUI.ButtonStyle {
     @State private var ringScale: CGFloat = 1
     @Binding var isOn: Bool
     
+    private let generator = UIImpactFeedbackGenerator(style: .light)
+    
     func borderColor(isPressed: Bool) -> Color {
         if (isOn && isEnabled) || isPressed {
             return Preferences.radioDotColor
@@ -85,8 +87,12 @@ struct RadioButtonStyle: SwiftUI.ButtonStyle {
         }
         .animation(.linear(duration: 0.3), value: isOn)
         .animation(.linear(duration: 0.3), value: isEnabled)
+        .onAppear() {
+            generator.prepare()
+        }
         .onChange(of: isOn) { isOn in
             /// `onTap` would be better but conflicts with button `action`
+            generator.impactOccurred()
             if isOn { tap() }
         }
     }
