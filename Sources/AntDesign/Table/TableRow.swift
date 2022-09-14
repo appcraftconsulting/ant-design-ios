@@ -7,27 +7,46 @@
 
 import SwiftUI
 
-public struct TableRow: View {
+public enum TableRowSize {
+    case large, middle, small
+}
+
+public struct TableRow<Label>: View where Label : View {
     @Environment(\.isEnabled) private var isEnabled: Bool
 
     public enum SelectionType {
         case checkbox, radio
     }
     
-    public enum Size {
-        case large, middle, small
+    private struct SelectionTypeViewModifier: ViewModifier {
+        let selectionType: SelectionType
+        
+        func body(content: Content) -> some View {
+            switch selectionType {
+            case .radio:
+                content.toggleStyle(RadioToggleStyle())
+            case .checkbox:
+                content.toggleStyle(CheckboxToggleStyle())
+            }
+        }
     }
+
     
     @Binding var isSelected: Bool
-    let selectionType: SelectionType
-    let title: String
-    let size: Size
+    let selectionType: SelectionType?
+    let label: Label
+    let size: TableRowSize
     
-    public init(size: Size, title: String, selectionType: SelectionType, isSelected: Binding<Bool>) {
+    public init(
+        size: TableRowSize,
+        selectionType: SelectionType? = nil,
+        isSelected: Binding<Bool>? = nil,
+        label: () -> Label
+    ) {
         self.size = size
-        self.title = title
+        self.label = label()
         self.selectionType = selectionType
-        self._isSelected = isSelected
+        self._isSelected = isSelected ?? .constant(false)
     }
     
     private var fontSize: CGFloat {
@@ -46,11 +65,20 @@ public struct TableRow: View {
             Button {
                 isSelected.toggle()
             } label: {
-                Toggle(title, isOn: $isSelected)
-                    .toggleStyle(RadioToggleStyle())
+                if let selectionType = selectionType {
+                    Toggle(isOn: $isSelected) {
+                        label
+                    }
+                    .modifier(SelectionTypeViewModifier(selectionType: selectionType))
                     .labelsHidden()
+                } else {
+                    HStack {
+                        label
+                        Spacer()
+                    }
+                }
             }
-            
+
             Preferences.tableBorderColor
                 .frame(height: Preferences.borderWidthBase)
         }
@@ -61,7 +89,7 @@ public struct TableRow: View {
 
 fileprivate struct TableRowButtonStyle: SwiftUI.ButtonStyle {
     let isSelected: Bool
-    let size: TableRow.Size
+    let size: TableRowSize
     
     private var horizontalPadding: CGFloat {
         switch size {

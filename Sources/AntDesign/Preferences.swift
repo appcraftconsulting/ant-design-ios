@@ -51,6 +51,22 @@ public enum Preferences {
     public static var errorColorDeprecatedBg: Color = .base(errorColorPalette, 1)
     public static var errorColorDeprecatedBorder: Color = .base(errorColorPalette, 3)
     
+    // Animation
+    public static var easeBaseOut: Animation = .timingCurve(0.7, 0.3, 0.1, 1)
+    public static var easeBaseIn: Animation = .timingCurve(0.9, 0, 0.3, 0.7)
+    public static var easeOut: Animation = .timingCurve(0.215, 0.61, 0.355, 1)
+    public static var easeIn: Animation = .timingCurve(0.55, 0.055, 0.675, 0.19)
+    public static var easeInOut: Animation = .timingCurve(0.645, 0.045, 0.355, 1)
+    public static var easeOutBack: Animation = .timingCurve(0.12, 0.4, 0.29, 1.46, duration: 0.1)
+    public static var easeInBack: Animation = .timingCurve(0.71, -0.46, 0.88, 0.6)
+    public static var easeInOutBack: Animation = .timingCurve(0.71, -0.46, 0.29, 1.46)
+    public static var easeOutCirc: Animation = .timingCurve(0.08, 0.82, 0.17, 1)
+    public static var easeInCirc: Animation = .timingCurve(0.6, 0.04, 0.98, 0.34)
+    public static var easeInOutCirc: Animation = .timingCurve(0.78, 0.14, 0.15, 0.86)
+    public static var easeOutQuint: Animation = .timingCurve(0.23, 1, 0.32, 1)
+    public static var easeInQuint: Animation = .timingCurve(0.755, 0.05, 0.855, 0.06)
+    public static var easeInOutQuint: Animation = .timingCurve(0.86, 0, 0.07, 1)
+    
     // Border color
     /// base border outline a component
     public static var borderColorBase: Color = .preferences(.borderColorBase)
@@ -161,6 +177,15 @@ public enum Preferences {
     
     public static var btnLinkHoverBg: Color = .clear
     public static var btnTextHoverBg: Color = .preferences(.btnTextHoverBg)
+    
+    // Checkbox
+    public static var checkboxSize: CGFloat = 16
+    public static var checkboxColor = primaryColor
+    public static var checkboxCheckColor: Color = .white
+    public static var checkboxCheckBg: Color = .preferences(.checkboxCheckBg)
+    public static var checkboxBorderWidth = borderWidthBase
+    public static var checkboxBorderRadius = borderRadiusBase
+    public static var checkboxGroupItemMarginRight: CGFloat = 8
     
     // Switch
     // ---

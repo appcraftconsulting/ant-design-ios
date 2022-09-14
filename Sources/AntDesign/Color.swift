@@ -58,6 +58,7 @@ public extension Color {
         case radioDotDisabledColor = "@radio-dot-disabled-color"
         case radioDisabledButtonCheckedBg = "@radio-disabled-button-checked-bg"
         case inputIconHoverColor = "@input-icon-hover-color"
+        case checkboxCheckBg = "@checkbox-check-bg"
     }
     
     enum NeutralColorPalette: String {
