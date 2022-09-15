@@ -11,8 +11,9 @@ public enum TableRowSize {
     case large, middle, small
 }
 
-public struct TableRow<Label>: View where Label : View {
+public struct TableRow<Label, ExpandedLabel>: View where Label : View, ExpandedLabel: View {
     @Environment(\.isEnabled) private var isEnabled: Bool
+    @State private var isExpanded: Bool = false
 
     public enum SelectionType {
         case checkbox, radio
@@ -31,22 +32,24 @@ public struct TableRow<Label>: View where Label : View {
         }
     }
 
-    
     @Binding var isSelected: Bool
     let selectionType: SelectionType?
     let label: Label
+    let expandedRow: ExpandedLabel?
     let size: TableRowSize
     
     public init(
         size: TableRowSize,
         selectionType: SelectionType? = nil,
         isSelected: Binding<Bool>? = nil,
-        label: () -> Label
+        label: () -> Label,
+        expandedRow: (() -> ExpandedLabel)? = nil
     ) {
         self.size = size
         self.label = label()
         self.selectionType = selectionType
         self._isSelected = isSelected ?? .constant(false)
+        self.expandedRow = expandedRow?()
     }
     
     private var fontSize: CGFloat {
@@ -59,37 +62,6 @@ public struct TableRow<Label>: View where Label : View {
             return Preferences.tableFontSize
         }
     }
-    
-    public var body: some View {
-        VStack(spacing: 0) {
-            Button {
-                isSelected.toggle()
-            } label: {
-                if let selectionType = selectionType {
-                    Toggle(isOn: $isSelected) {
-                        label
-                    }
-                    .modifier(SelectionTypeViewModifier(selectionType: selectionType))
-                    .labelsHidden()
-                } else {
-                    HStack {
-                        label
-                        Spacer()
-                    }
-                }
-            }
-
-            Preferences.tableBorderColor
-                .frame(height: Preferences.borderWidthBase)
-        }
-        .buttonStyle(TableRowButtonStyle(isSelected: isSelected, size: size))
-        .frame(maxWidth: .infinity)
-    }
-}
-
-fileprivate struct TableRowButtonStyle: SwiftUI.ButtonStyle {
-    let isSelected: Bool
-    let size: TableRowSize
     
     private var horizontalPadding: CGFloat {
         switch size {
@@ -112,6 +84,96 @@ fileprivate struct TableRowButtonStyle: SwiftUI.ButtonStyle {
             return Preferences.tablePaddingVertical
         }
     }
+    
+    public var body: some View {
+        VStack(spacing: 0) {
+            Button {
+                isSelected.toggle()
+            } label: {
+                if let selectionType = selectionType {
+                    Toggle(isOn: $isSelected) {
+                        HStack {
+                            if expandedRow != nil {
+                                TableRowExpandButton(isExpanded: $isExpanded)
+                            }
+                            label
+                        }
+                    }
+                    .modifier(SelectionTypeViewModifier(selectionType: selectionType))
+                    .labelsHidden()
+                } else {
+                    HStack {
+                        if expandedRow != nil {
+                            TableRowExpandButton(isExpanded: $isExpanded)
+                        }
+                        label
+                        Spacer()
+                    }
+                }
+            }
+
+            Preferences.tableBorderColor
+                .frame(height: Preferences.borderWidthBase)
+            
+            Group {
+                if isExpanded, let expandedRow = expandedRow {
+                    HStack {
+                        expandedRow
+                        Spacer()
+                    }
+                    .padding(.horizontal, horizontalPadding)
+                    .padding(.vertical, verticalPadding)
+                    .background(Preferences.tableExpandedRowBg)
+                    .foregroundColor(Preferences.textColor)
+                    
+                    Preferences.tableBorderColor
+                        .frame(height: Preferences.borderWidthBase)
+                }
+            }
+        }
+        .font(.system(size: fontSize))
+        .buttonStyle(TableRowButtonStyle(
+            isSelected: isSelected,
+            horizontalPadding: horizontalPadding,
+            verticalPadding: verticalPadding
+        ))
+        .animation(.default, value: isExpanded)
+        .frame(maxWidth: .infinity)
+    }
+}
+
+extension TableRow where ExpandedLabel == EmptyView {
+    public init(
+        size: TableRowSize,
+        selectionType: SelectionType? = nil,
+        isSelected: Binding<Bool>? = nil,
+        label: () -> Label
+    ) {
+        self.size = size
+        self.label = label()
+        self.selectionType = selectionType
+        self._isSelected = isSelected ?? .constant(false)
+        self.expandedRow = nil
+    }
+}
+
+fileprivate struct TableRowExpandButton: View {
+    @Binding var isExpanded: Bool
+    
+    var body: some View {
+        Button(isExpanded ? "Collapse" : "Expand") {
+            withAnimation {
+                isExpanded.toggle()
+            }
+        }
+        .buttonStyle(ButtonStyle(type: .link))
+    }
+}
+
+fileprivate struct TableRowButtonStyle: SwiftUI.ButtonStyle {
+    let isSelected: Bool
+    let horizontalPadding: CGFloat
+    let verticalPadding: CGFloat
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
