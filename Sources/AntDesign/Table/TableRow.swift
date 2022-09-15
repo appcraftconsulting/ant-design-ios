@@ -90,25 +90,22 @@ public struct TableRow<Label, ExpandedLabel>: View where Label : View, ExpandedL
             Button {
                 isSelected.toggle()
             } label: {
-                if let selectionType = selectionType {
-                    Toggle(isOn: $isSelected) {
-                        HStack {
-                            if expandedRow != nil {
-                                TableRowExpandButton(isExpanded: $isExpanded)
-                            }
+                HStack(spacing: Preferences.paddingMd) {
+                    if expandedRow != nil {
+                        TableRowExpandButton(isExpanded: $isExpanded)
+                    }
+                    
+                    if let selectionType = selectionType {
+                        Toggle(isOn: $isSelected) {
                             label
                         }
-                    }
-                    .modifier(SelectionTypeViewModifier(selectionType: selectionType))
-                    .labelsHidden()
-                } else {
-                    HStack {
-                        if expandedRow != nil {
-                            TableRowExpandButton(isExpanded: $isExpanded)
-                        }
+                        .modifier(SelectionTypeViewModifier(selectionType: selectionType))
+                        .labelsHidden()
+                    } else {
                         label
-                        Spacer()
                     }
+                    
+                    Spacer()
                 }
             }
 
@@ -166,7 +163,20 @@ fileprivate struct TableRowExpandButton: View {
                 isExpanded.toggle()
             }
         }
-        .buttonStyle(ButtonStyle(type: .link))
+        .buttonStyle(ButtonStyle())
+    }
+    
+    struct ButtonStyle: SwiftUI.ButtonStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            let expandIconSize = ceil(((Preferences.fontSizeSm * 1.4 - Preferences.borderWidthBase * 3) / 2)) * 2 +
+            Preferences.borderWidthBase * 3
+            
+            RoundedRectangle(cornerRadius: Preferences.borderRadiusBase)
+                .stroke(Preferences.tableBorderColor, lineWidth: Preferences.borderWidthBase)
+                .frame(width: expandIconSize, height: expandIconSize)
+                .background(Preferences.tableExpandIconBg)
+                .scaleEffect(Preferences.checkboxSize / expandIconSize)
+        }
     }
 }
 

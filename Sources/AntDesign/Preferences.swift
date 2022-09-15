@@ -32,7 +32,7 @@ public enum Preferences {
     public static var successColorOutline = successColor.opacity(outlineFade)
     public static var successColorDeprecatedBg: Color = .base(successColorPalette, 1)
     public static var successColorDeprecatedBorder: Color = .base(successColorPalette, 3)
-
+    
     // >>> Warning
     public static var warningColorPalette: Color.BaseColorPalette = .gold
     public static var warningColor: Color = .base(warningColorPalette, 6)
@@ -110,7 +110,7 @@ public enum Preferences {
     public static var textColorInverse: Color = .white
     public static var iconColorHover: Color = .preferences(.iconColorHover)
     public static var headingColor: Color = .preferences(.headingColor)
-
+    
     // Disabled states
     public static var disabledColor: Color = .preferences(.disabledColor)
     public static var disabledBg: Color = backgroundColorBase
@@ -146,7 +146,7 @@ public enum Preferences {
     public static var btnDefaultColor: Color = textColor
     public static var btnDefaultBg = componentBackground
     public static var btnDefaultBorder: Color = .neutral(.border)
-
+    
     public static var btnDangerColor: Color = .white
     public static var btnDangerBg: Color = .functional(.error)
     public static var btnDangerBorder: Color = .functional(.error)
@@ -154,15 +154,15 @@ public enum Preferences {
     public static var btnDisableColor = disabledColor
     public static var btnDisableBg = disabledBg
     public static var btnDisableBorder : Color = .neutral(.border)
-
+    
     public static var btnDefaultGhostColor: Color = .preferences(.btnDefaultGhostColor)
     public static var btnDefaultGhostBg: Color = .clear
     public static var btnDefaultGhostBorder: Color = .preferences(.btnDefaultGhostBorder)
-
+    
     public static var btnPaddingHorizontalBase = paddingMd - 1
     public static var btnPaddingHorizontalLg = btnPaddingHorizontalBase
     public static var btnPaddingHorizontalSm = paddingXs - 1
-
+    
     public static var btnHeightBase = heightBase
     public static var btnHeightLg = heightLg
     public static var btnHeightSm = heightSm
@@ -274,40 +274,40 @@ public enum Preferences {
     public static var inputHeightBase = heightBase
     public static var inputHeightLg = heightLg
     public static var inputHeightSm = heightSm
-//    @input-padding-horizontal: @control-padding-horizontal - 1px;
-//    @input-padding-horizontal-base: @input-padding-horizontal;
-//    @input-padding-horizontal-sm: @control-padding-horizontal-sm - 1px;
-//    @input-padding-horizontal-lg: @input-padding-horizontal;
-//    @input-padding-vertical-base: max(
-//      (round(((@input-height-base - @font-size-base * @line-height-base) / 2) * 10) / 10) -
-//        @border-width-base,
-//      3px
-//    );
-//    @input-padding-vertical-sm: max(
-//      (round(((@input-height-sm - @font-size-base * @line-height-base) / 2) * 10) / 10) -
-//        @border-width-base,
-//      0
-//    );
-//    @input-padding-vertical-lg: (
-//        ceil(((@input-height-lg - @font-size-lg * @line-height-base) / 2) * 10) / 10
-//      ) - @border-width-base;
-//    @input-placeholder-color: hsv(0, 0, 75%);
-//    @input-color: @text-color;
-//    @input-icon-color: @input-color;
-//    @input-border-color: @border-color-base;
-//    @input-bg: @component-background;
-//    @input-number-hover-border-color: @input-hover-border-color;
-//    @input-number-handler-active-bg: #f4f4f4;
-//    @input-number-handler-hover-bg: @primary-5;
-//    @input-number-handler-bg: @component-background;
-//    @input-number-handler-border-color: @border-color-base;
-//    @input-addon-bg: @background-color-light;
-//    @input-hover-border-color: @primary-5;
+    //    @input-padding-horizontal: @control-padding-horizontal - 1px;
+    //    @input-padding-horizontal-base: @input-padding-horizontal;
+    //    @input-padding-horizontal-sm: @control-padding-horizontal-sm - 1px;
+    //    @input-padding-horizontal-lg: @input-padding-horizontal;
+    //    @input-padding-vertical-base: max(
+    //      (round(((@input-height-base - @font-size-base * @line-height-base) / 2) * 10) / 10) -
+    //        @border-width-base,
+    //      3px
+    //    );
+    //    @input-padding-vertical-sm: max(
+    //      (round(((@input-height-sm - @font-size-base * @line-height-base) / 2) * 10) / 10) -
+    //        @border-width-base,
+    //      0
+    //    );
+    //    @input-padding-vertical-lg: (
+    //        ceil(((@input-height-lg - @font-size-lg * @line-height-base) / 2) * 10) / 10
+    //      ) - @border-width-base;
+    //    @input-placeholder-color: hsv(0, 0, 75%);
+    //    @input-color: @text-color;
+    //    @input-icon-color: @input-color;
+    //    @input-border-color: @border-color-base;
+    //    @input-bg: @component-background;
+    //    @input-number-hover-border-color: @input-hover-border-color;
+    //    @input-number-handler-active-bg: #f4f4f4;
+    //    @input-number-handler-hover-bg: @primary-5;
+    //    @input-number-handler-bg: @component-background;
+    //    @input-number-handler-border-color: @border-color-base;
+    //    @input-addon-bg: @background-color-light;
+    //    @input-hover-border-color: @primary-5;
     public static var inputDisabledBg = disabledBg
     public static var inputOutlineOffset: CGPoint = .init(x: 0, y: 0)
     public static var inputIconHoverColor: Color = .preferences(.inputIconHoverColor)
     public static var inputDisabledColor = disabledColor
-
+    
     // Mentions
     // ---
     public static var mentionsDropdownBg = componentBackground
@@ -330,10 +330,10 @@ public enum Preferences {
     public static var selectSelectionItemBg = backgroundColorBase
     public static var selectSelectionItemBorderColor = borderColorSplit
     public static var selectSingleItemHeightLg: CGFloat = 40
-//    public static var selectMultipleItemHight = inputHeightBase - inputPaddingVerticalBase * 2
+    //    public static var selectMultipleItemHight = inputHeightBase - inputPaddingVerticalBase * 2
     public static var selectMultipleItemHeightLg: CGFloat = 32
-//    public static var selectMultipleItemSpacingHalf = ceil((inputPaddingVerticalBase / 2))
-//    public static var selectMultipleDisabledBackground = inputDisabledBg
+    //    public static var selectMultipleItemSpacingHalf = ceil((inputPaddingVerticalBase / 2))
+    //    public static var selectMultipleDisabledBackground = inputDisabledBg
     public static var selectMultipleItemDisabledColor: Color = .preferences(.selectMultipleItemDisabledColor)
     public static var selectMultipleItemDisabledBorderColor = selectBorderColor
     
@@ -346,7 +346,7 @@ public enum Preferences {
     
     // Empty
     public static var emptyFontSize = fontSizeBase
-
+    
     // Radio
     public static var radioSize: CGFloat = 16
     public static var radioTop = 0.2 * fontSizeBase
@@ -355,7 +355,7 @@ public enum Preferences {
     public static var radioDotColor = primaryColor
     public static var radioDotDisabledColor: Color = .preferences(.radioDotDisabledColor)
     public static var radioSolidCheckedColor: Color = .preferences(.radioSolidCheckedColor)
-
+    
     // Radio buttons
     public static var radioButtonBg = btnDefaultBg
     public static var radioButtonCheckedBg = btnDefaultBg
@@ -381,10 +381,10 @@ public enum Preferences {
     public static var tableHeaderSortBg = backgroundColorBase
     public static var tableBodySortBg: Color = .preferences(.tableBodySortBg)
     public static var tableRowHoverBg = backgroundColorLight
-//    @table-selected-row-color: inherit;
+    //    @table-selected-row-color: inherit;
     public static var tableSelectedRowBg: Color = .base(primaryColorPalette, 1)
     public static var tableBodySelectedSortBg = tableSelectedRowBg
-//    @table-selected-row-hover-bg: darken(@table-selected-row-bg, 2%);
+    //    @table-selected-row-hover-bg: darken(@table-selected-row-bg, 2%);
     public static var tableExpandedRowBg: Color = .preferences(.tableExpandedRowBg)
     public static var tablePaddingVertical: CGFloat = 16
     public static var tablePaddingHorizontal: CGFloat = 16
@@ -401,4 +401,7 @@ public enum Preferences {
     public static var tableFontSizeMd = tableFontSize
     public static var tableFontSizeSm = tableFontSize
     public static var tableHeaderCellSplitColor: Color = .preferences(.tableHeaderCellSplitColor)
+    
+    // Filter
+    public static var tableExpandIconBg: Color = .preferences(.tableExpandIconBg)
 }
