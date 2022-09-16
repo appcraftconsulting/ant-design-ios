@@ -112,20 +112,18 @@ public struct TableRow<Label, ExpandedLabel>: View where Label : View, ExpandedL
             Preferences.tableBorderColor
                 .frame(height: Preferences.borderWidthBase)
             
-            Group {
-                if isExpanded, let expandedRow = expandedRow {
-                    HStack {
-                        expandedRow
-                        Spacer()
-                    }
-                    .padding(.horizontal, horizontalPadding)
-                    .padding(.vertical, verticalPadding)
-                    .background(Preferences.tableExpandedRowBg)
-                    .foregroundColor(Preferences.textColor)
-                    
-                    Preferences.tableBorderColor
-                        .frame(height: Preferences.borderWidthBase)
+            if isExpanded, let expandedRow = expandedRow {
+                HStack {
+                    expandedRow
+                    Spacer()
                 }
+                .padding(.horizontal, horizontalPadding)
+                .padding(.vertical, verticalPadding)
+                .background(Preferences.tableExpandedRowBg)
+                .foregroundColor(Preferences.textColor)
+                
+                Preferences.tableBorderColor
+                    .frame(height: Preferences.borderWidthBase)
             }
         }
         .font(.system(size: fontSize))
@@ -198,6 +196,7 @@ fileprivate struct TableRowExpandButton: View {
                     .padding(3 + Preferences.borderWidthBase)
                 }
                 .scaleEffect(Preferences.checkboxSize / expandIconSize)
+                .contentShape(Circle().scale(3))
         }
     }
 }
