@@ -163,18 +163,40 @@ fileprivate struct TableRowExpandButton: View {
                 isExpanded.toggle()
             }
         }
-        .buttonStyle(ButtonStyle())
+        .buttonStyle(ButtonStyle(isExpanded: isExpanded))
     }
     
     struct ButtonStyle: SwiftUI.ButtonStyle {
+        let isExpanded: Bool
+        
         func makeBody(configuration: Configuration) -> some View {
             let expandIconSize = ceil(((Preferences.fontSizeSm * 1.4 - Preferences.borderWidthBase * 3) / 2)) * 2 +
             Preferences.borderWidthBase * 3
             
             RoundedRectangle(cornerRadius: Preferences.borderRadiusBase)
-                .stroke(Preferences.tableBorderColor, lineWidth: Preferences.borderWidthBase)
+                .fill(Preferences.tableExpandIconBg)
                 .frame(width: expandIconSize, height: expandIconSize)
-                .background(Preferences.tableExpandIconBg)
+                .overlay {
+                    RoundedRectangle(cornerRadius: Preferences.borderRadiusBase)
+                        .stroke(
+                            configuration.isPressed ? Preferences.primaryColor : Preferences.tableBorderColor,
+                            lineWidth: Preferences.borderWidthBase
+                        )
+                }
+                .overlay {
+                    ZStack(alignment: .center) {
+                        Rectangle()
+                            .fill(configuration.isPressed ? Preferences.primaryColor : Preferences.textColor)
+                            .frame(width: Preferences.borderWidthBase)
+                            .rotationEffect(isExpanded ? .degrees(90) : .degrees(0))
+                        
+                        Rectangle()
+                            .fill(configuration.isPressed ? Preferences.primaryColor : Preferences.textColor)
+                            .frame(height: Preferences.borderWidthBase)
+                            .rotationEffect(isExpanded ? .degrees(180) : .degrees(0))
+                    }
+                    .padding(3 + Preferences.borderWidthBase)
+                }
                 .scaleEffect(Preferences.checkboxSize / expandIconSize)
         }
     }
