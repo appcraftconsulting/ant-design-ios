@@ -51,6 +51,9 @@ public enum Preferences {
     public static var errorColorDeprecatedBg: Color = .base(errorColorPalette, 1)
     public static var errorColorDeprecatedBorder: Color = .base(errorColorPalette, 3)
     
+    public static var highlightColor: Color = .base(.red, 5)
+    public static var normalColor: Color = .init(hex: 0xd9d9d9)
+    
     // Animation
     public static var easeBaseOut: Animation = .timingCurve(0.7, 0.3, 0.1, 1)
     public static var easeBaseIn: Animation = .timingCurve(0.9, 0, 0.3, 0.7)
@@ -84,6 +87,17 @@ public enum Preferences {
     public static var paddingSm: CGFloat = 12 // Form controls and items
     public static var paddingXs: CGFloat = 8 // small items
     public static var paddingXss: CGFloat = 4 // more small
+    
+    // vertical padding for all form controls
+    public static var controlPaddingHorizontal = paddingSm
+    public static var controlPaddingHorizontalSm = paddingXs;
+    
+    // vertical margins
+    public static var marginLg: CGFloat = 24 // containers
+    public static var marginMd: CGFloat = 16 // small containers and buttons
+    public static var marginSm: CGFloat = 12 // Form controls and items
+    public static var marginXs: CGFloat = 8 // small items
+    public static var marginXss: CGFloat = 4 // more small
     
     // height rules
     public static var heightBase: CGFloat = 32
@@ -269,40 +283,51 @@ public enum Preferences {
     public static var cardHeadTabsMarginBottom: CGFloat = -17
     public static var cardHeadExtraColor = textColor
     
+    // Form
+    // ---
+    public static var labelRequiredColor = highlightColor
+    public static var labelColor = headingColor
+    public static var formWarningInputBg = inputBg
+    public static var formItemMarginBottom: CGFloat = 24
+    public static var formItemTrailingColon = true
+    public static var formVerticalLabelPadding: EdgeInsets = .init(top: 0, leading: 0, bottom: 8, trailing: 0)
+    public static var formVerticalLabelMargin: CGFloat = 0
+    public static var formItemLabelFontSize = fontSizeBase
+    public static var formItemLabelHeight = inputHeightBase
+    public static var formItemLabelColonMarginRight: CGFloat = 8
+    public static var formItemLabelColonMarginLeft: CGFloat = 2
+    public static var formErrorInputBg = inputBg
+    
     // Input
     // ---
     public static var inputHeightBase = heightBase
     public static var inputHeightLg = heightLg
     public static var inputHeightSm = heightSm
-    //    @input-padding-horizontal: @control-padding-horizontal - 1px;
-    //    @input-padding-horizontal-base: @input-padding-horizontal;
-    //    @input-padding-horizontal-sm: @control-padding-horizontal-sm - 1px;
-    //    @input-padding-horizontal-lg: @input-padding-horizontal;
-    //    @input-padding-vertical-base: max(
-    //      (round(((@input-height-base - @font-size-base * @line-height-base) / 2) * 10) / 10) -
-    //        @border-width-base,
-    //      3px
-    //    );
-    //    @input-padding-vertical-sm: max(
-    //      (round(((@input-height-sm - @font-size-base * @line-height-base) / 2) * 10) / 10) -
-    //        @border-width-base,
-    //      0
-    //    );
-    //    @input-padding-vertical-lg: (
-    //        ceil(((@input-height-lg - @font-size-lg * @line-height-base) / 2) * 10) / 10
-    //      ) - @border-width-base;
-    //    @input-placeholder-color: hsv(0, 0, 75%);
-    //    @input-color: @text-color;
-    //    @input-icon-color: @input-color;
-    //    @input-border-color: @border-color-base;
-    //    @input-bg: @component-background;
-    //    @input-number-hover-border-color: @input-hover-border-color;
-    //    @input-number-handler-active-bg: #f4f4f4;
-    //    @input-number-handler-hover-bg: @primary-5;
-    //    @input-number-handler-bg: @component-background;
-    //    @input-number-handler-border-color: @border-color-base;
-    //    @input-addon-bg: @background-color-light;
-    //    @input-hover-border-color: @primary-5;
+    public static var inputPaddingHorizontal = controlPaddingHorizontal - 1
+    public static var inputPaddingHorizontalBase = inputPaddingHorizontal
+    public static var inputPaddingHorizontalSm = controlPaddingHorizontalSm - 1
+    public static var inputPaddingHorizontalLg = inputPaddingHorizontal
+    public static var inputPaddingVerticalBase: CGFloat = max(
+        (round(((inputHeightBase - fontSizeBase * lineHeightBase) / 2) * 10) / 10) - borderWidthBase, 3
+    )
+    public static var inputPaddingVerticalSm = max(
+        (round(((inputHeightSm - fontSizeBase * lineHeightBase) / 2) * 10) / 10) - borderWidthBase, 0
+    )
+    public static var inputPaddingVerticalLg = (
+        ceil(((inputHeightLg - fontSizeLg * lineHeightBase) / 2) * 10) / 10
+    ) - borderWidthBase
+    public static var inputPlaceholderColor: Color = .preferences(.inputPlaceholderColor)
+    public static var inputColor = textColor
+    public static var inputIconColor: Color = .preferences(.inputIconColor)
+    public static var inputBorderColor = borderColorBase
+    public static var inputBg: Color = .preferences(.inputBg)
+    public static var inputNumberHoverBorderColor = inputHoverBorderColor
+    public static var inputNumberHandlerActiveBg: Color = .preferences(.inputNumberHandlerActiveBg)
+    public static var inputNumberHandlerHoverBg: Color = .base(primaryColorPalette, 5)
+    public static var inputNumberHandlerBg = componentBackground
+    public static var inputNumberHandlerBorderColor = borderColorBase
+    public static var inputAddonBg = backgroundColorLight
+    public static var inputHoverBorderColor: Color = .base(primaryColorPalette, 5)
     public static var inputDisabledBg = disabledBg
     public static var inputOutlineOffset: CGPoint = .init(x: 0, y: 0)
     public static var inputIconHoverColor: Color = .preferences(.inputIconHoverColor)
@@ -330,10 +355,10 @@ public enum Preferences {
     public static var selectSelectionItemBg = backgroundColorBase
     public static var selectSelectionItemBorderColor = borderColorSplit
     public static var selectSingleItemHeightLg: CGFloat = 40
-    //    public static var selectMultipleItemHight = inputHeightBase - inputPaddingVerticalBase * 2
+    public static var selectMultipleItemHight = inputHeightBase - inputPaddingVerticalBase * 2
     public static var selectMultipleItemHeightLg: CGFloat = 32
-    //    public static var selectMultipleItemSpacingHalf = ceil((inputPaddingVerticalBase / 2))
-    //    public static var selectMultipleDisabledBackground = inputDisabledBg
+    public static var selectMultipleItemSpacingHalf = ceil((inputPaddingVerticalBase / 2))
+    public static var selectMultipleDisabledBackground = inputDisabledBg
     public static var selectMultipleItemDisabledColor: Color = .preferences(.selectMultipleItemDisabledColor)
     public static var selectMultipleItemDisabledBorderColor = selectBorderColor
     

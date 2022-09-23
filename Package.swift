@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "AntDesign",
+    defaultLocalization: "en",
     platforms: [
         .macOS(.v12),
         .iOS(.v15)
@@ -25,7 +26,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "AntDesign",
-            dependencies: []
+            dependencies: [],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "AntDesignTests",

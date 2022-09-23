@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ShadowModifier.swift
 //  
 //
 //  Created by François Boulais on 04/07/2022.

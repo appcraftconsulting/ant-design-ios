@@ -60,6 +60,10 @@ public extension Color {
         case inputIconHoverColor = "@input-icon-hover-color"
         case checkboxCheckBg = "@checkbox-check-bg"
         case tableExpandIconBg = "@table-expand-icon-bg"
+        case inputBg = "@input-bg"
+        case inputPlaceholderColor = "@input-placeholder-color"
+        case inputIconColor = "@input-icon-color"
+        case inputNumberHandlerActiveBg = "@input-number-handler-active-bg"
     }
     
     enum NeutralColorPalette: String {
