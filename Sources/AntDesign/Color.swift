@@ -23,14 +23,6 @@ public extension Color {
         case magenta
     }
     
-    enum NeutralColor: String {
-        case title = "Title"
-        case border = "Border"
-        case dividers = "Dividers"
-        case background = "Background"
-        case tableHeader = "Table header"
-    }
-    
     enum PreferencesColor: String {
         case btnTextHoverBg = "@btn-text-hover-bg"
         case bodyBackground = "@body-background"
@@ -76,14 +68,6 @@ public extension Color {
     
     static func base(_ palette: BaseColorPalette, _ index: Int) -> Self {
         color(palette.rawValue, index: index)
-    }
-    
-    static func neutral(_ palette: NeutralColorPalette, _ index: Int) -> Self {
-        color(palette.rawValue, index: index)
-    }
-    
-    static func neutral(_ color: NeutralColor) -> Self {
-        .init(color.rawValue, bundle: .module)
     }
     
     static func preferences(_ color: PreferencesColor) -> Self {

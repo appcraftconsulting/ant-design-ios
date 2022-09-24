@@ -159,7 +159,7 @@ public enum Preferences {
     
     public static var btnDefaultColor: Color = textColor
     public static var btnDefaultBg = componentBackground
-    public static var btnDefaultBorder: Color = .neutral(.border)
+    public static var btnDefaultBorder = borderColorBase
     
     public static var btnDangerColor: Color = .white
     public static var btnDangerBg: Color = .functional(.error)
@@ -167,7 +167,7 @@ public enum Preferences {
     
     public static var btnDisableColor = disabledColor
     public static var btnDisableBg = disabledBg
-    public static var btnDisableBorder : Color = .neutral(.border)
+    public static var btnDisableBorder = borderColorBase
     
     public static var btnDefaultGhostColor: Color = .preferences(.btnDefaultGhostColor)
     public static var btnDefaultGhostBg: Color = .clear
