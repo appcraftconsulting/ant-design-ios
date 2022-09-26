@@ -26,7 +26,7 @@ public struct FormItem<InputGroup>: View where InputGroup : View {
     let label: Label?
     let inputGroup: InputGroup
 
-    public init(label: Label? = nil, inputGroup: () -> InputGroup) {
+    public init(label: Label? = nil, @ViewBuilder inputGroup: () -> InputGroup) {
         self.label = label
         self.inputGroup = inputGroup()
     }
@@ -58,7 +58,6 @@ public struct FormItem<InputGroup>: View where InputGroup : View {
                 }
                 .padding(.bottom, 8)
             }
-
 
             inputGroup
         }

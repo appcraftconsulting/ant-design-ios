@@ -9,8 +9,8 @@ import SwiftUI
 
 public struct InputTextFieldStyle: TextFieldStyle {
     @Environment(\.componentSize) internal var size: ComponentSize
-    @Environment(\.isFocused) internal var isFocused: Bool
-    
+    @FocusState var isFocused: Bool
+
     public let systemName: String?
     public let isHovered: Bool
     
@@ -62,6 +62,7 @@ public struct InputTextFieldStyle: TextFieldStyle {
             }
             
             configuration
+                .focused($isFocused)
         }
         .font(.system(size: Preferences.fontSizeBase))
         .foregroundColor(Preferences.inputColor)
@@ -89,5 +90,6 @@ public struct InputTextFieldStyle: TextFieldStyle {
             .animation(.default, value: isFocused)
             .animation(.default, value: isHovered)
         }
+        .contentShape(RoundedRectangle(cornerRadius: Preferences.borderRadiusBase))
     }
 }
