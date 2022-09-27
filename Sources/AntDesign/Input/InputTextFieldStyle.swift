@@ -9,17 +9,21 @@ import SwiftUI
 
 public struct InputTextFieldStyle: TextFieldStyle {
     @Environment(\.componentSize) internal var size: ComponentSize
+    @Environment(\.inputStatus) internal var inputStatus: InputStatus?
     @FocusState var isFocused: Bool
-
-    public let systemName: String?
-    public let isHovered: Bool
+    
+    private let systemName: String?
+    private let isHovered: Bool
+    private let status: InputStatus?
     
     public init(
         systemName: String? = nil,
-        isHovered: Bool = false
+        isHovered: Bool = false,
+        status: InputStatus? = nil
     ) {
         self.systemName = systemName
         self.isHovered = isHovered
+        self.status = status
     }
     
     private var verticalPadding: CGFloat {
@@ -54,6 +58,32 @@ public struct InputTextFieldStyle: TextFieldStyle {
             return Preferences.inputHeightLg
         }
     }
+    
+    private var borderColor: Color {
+        if let status = status ?? inputStatus {
+            switch status {
+            case .error:
+                return Preferences.errorColor
+            case .warning:
+                return Preferences.warningColor
+            }
+        } else {
+            return Preferences.primaryColor
+        }
+    }
+    
+    private var outlineColor: Color {
+        if let status = status ?? inputStatus {
+            switch status {
+            case .error:
+                return Preferences.errorColorOutline
+            case .warning:
+                return Preferences.warningColorOutline
+            }
+        } else {
+            return Preferences.primaryColorOutline
+        }
+    }
 
     public func _body(configuration: TextField<Self._Label>) -> some View {
         HStack {
@@ -62,6 +92,7 @@ public struct InputTextFieldStyle: TextFieldStyle {
             }
             
             configuration
+                .textFieldStyle(.plain)
                 .focused($isFocused)
         }
         .font(.system(size: Preferences.fontSizeBase))
@@ -73,23 +104,28 @@ public struct InputTextFieldStyle: TextFieldStyle {
             Group {
                 if isFocused {
                     RoundedRectangle(cornerRadius: Preferences.borderRadiusBase)
-                        .stroke(Preferences.primaryColor, lineWidth: Preferences.borderWidthBase)
+                        .stroke(borderColor, lineWidth: Preferences.borderWidthBase)
                         .overlay {
                             RoundedRectangle(cornerRadius: Preferences.borderRadiusBase + Preferences.outlineWidth / 2)
-                                .stroke(Preferences.primaryColorOutline, lineWidth: Preferences.outlineWidth)
+                                .stroke(outlineColor, lineWidth: Preferences.outlineWidth)
                                 .padding(-(Preferences.outlineWidth / 2 + Preferences.borderWidthBase / 2))
                         }
                 } else if isHovered {
                     RoundedRectangle(cornerRadius: Preferences.borderRadiusBase)
                         .stroke(Preferences.primaryColor, lineWidth: Preferences.borderWidthBase)
                 } else {
-                    RoundedRectangle(cornerRadius: Preferences.borderRadiusBase)
-                        .stroke(Preferences.inputBorderColor, lineWidth: Preferences.borderWidthBase)
+                    if let status = status ?? inputStatus {
+                        RoundedRectangle(cornerRadius: Preferences.borderRadiusBase)
+                            .stroke(status.color, lineWidth: Preferences.borderWidthBase)
+                    } else {
+                        RoundedRectangle(cornerRadius: Preferences.borderRadiusBase)
+                            .stroke(Preferences.inputBorderColor, lineWidth: Preferences.borderWidthBase)
+                    }
                 }
             }
-            .animation(.default, value: isFocused)
-            .animation(.default, value: isHovered)
         }
+        .animation(.default, value: isHovered)
+        .animation(.default, value: isFocused)
         .contentShape(RoundedRectangle(cornerRadius: Preferences.borderRadiusBase))
     }
 }

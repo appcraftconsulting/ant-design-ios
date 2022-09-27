@@ -7,8 +7,10 @@
 
 import SwiftUI
 
-internal struct RadioToggleStyle: ToggleStyle {
-    func makeBody(configuration: Configuration) -> some View {
+public struct RadioToggleStyle: ToggleStyle {
+    public init() { }
+    
+    public func makeBody(configuration: Configuration) -> some View {
         Button {
             configuration.isOn.toggle()
         } label: {
@@ -18,7 +20,7 @@ internal struct RadioToggleStyle: ToggleStyle {
     }
 }
 
-struct RadioButtonStyle: SwiftUI.ButtonStyle {
+internal struct RadioButtonStyle: SwiftUI.ButtonStyle {
     @Environment(\.isEnabled) private var isEnabled: Bool
     @State private var ringOpacity: CGFloat = 0
     @State private var ringScale: CGFloat = 1
@@ -50,8 +52,8 @@ struct RadioButtonStyle: SwiftUI.ButtonStyle {
         }
     }
     
-    func makeBody(configuration: Configuration) -> some View {
-        return HStack {
+    public func makeBody(configuration: Configuration) -> some View {
+        return HStack(spacing: 0) {
             ZStack {
                 Circle()
                     .fill(fillColor)
@@ -82,9 +84,8 @@ struct RadioButtonStyle: SwiftUI.ButtonStyle {
                 .font(.system(size: Preferences.fontSizeBase))
                 .foregroundColor(isEnabled ? Preferences.textColor : Preferences.disabledColor)
                 .padding(.horizontal, 8)
-            
-            Spacer()
         }
+        
         .animation(.linear(duration: 0.3), value: isOn)
         .animation(.linear(duration: 0.3), value: isEnabled)
         .onAppear() {

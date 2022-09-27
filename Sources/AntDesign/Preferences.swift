@@ -140,9 +140,14 @@ public enum Preferences {
     public static var fontSizeBase: CGFloat = 15
     public static var fontSizeLg = fontSizeBase + 2
     public static var fontSizeSm: CGFloat = 13
+    public static var heading1Size = ceil(fontSizeBase * 2.71)
+    public static var heading2Size = ceil(fontSizeBase * 2.14)
+    public static var heading3Size = ceil(fontSizeBase * 1.71)
+    public static var heading4Size = ceil(fontSizeBase * 1.42)
+    public static var heading5Size = ceil(fontSizeBase * 1.14)
+    public static var lineHeightBase: CGFloat = 1.5715
     public static var borderRadiusBase: CGFloat = 2
     public static var borderRadiusSm = borderRadiusBase
-    public static var lineHeightBase: CGFloat = 1.5715
     
     // Buttons
     public static var btnFontWeight: Font.Weight = .regular
@@ -429,4 +434,10 @@ public enum Preferences {
     
     // Filter
     public static var tableExpandIconBg: Color = .preferences(.tableExpandIconBg)
+    
+    // Typography
+    // ---
+    public static var typographyTitleFontWeight: Font.Weight = .semibold
+    public static var typographyTitleMarginTop = 1.2 * fontSizeBase
+    public static var typographyTitleMarginBottom = 0.5 * fontSizeBase
 }
