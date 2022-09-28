@@ -48,27 +48,3 @@ public struct ButtonStyle: SwiftUI.ButtonStyle {
             ))
     }
 }
-
-public struct ButtonGroup<Content>: View where Content: View {
-    @State private var focusedIndex = 0
-    private let views: [Content]
-    
-    public init(_ views: Content...) {
-        self.views = views
-    }
-        
-    public var body: some View {
-        HStack(spacing: 0) {
-            ForEach(views.indices, id: \.self) { index in
-                let gesture = DragGesture(minimumDistance: 0).onChanged { _ in
-                    focusedIndex = index
-                }
-                
-                views[index]
-                    .zIndex(focusedIndex == index ? 10 : 1)
-                    .environment(\.groupPosition, views.count == 1 ? .alone : index == views.indices.first ? .first : index == views.indices.last ? .last : .middle )
-                    .simultaneousGesture(gesture)
-            }
-        }
-    }
-}

@@ -14,5 +14,6 @@ internal struct ExplainModifier: ViewModifier {
         content
             .font(.system(size: Preferences.fontSizeBase))
             .foregroundColor(status?.color ?? Preferences.textColorSecondary)
+            .padding(.top, Preferences.paddingXss)
     }
 }

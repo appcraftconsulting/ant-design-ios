@@ -34,6 +34,7 @@ public struct FormItem<Content : View>: View {
     private let label: Label?
     private let content: Content
     private var cancellables = Set<AnyCancellable>()
+    private var validatorId: String?
     
     private var bottomPadding: CGFloat {
         if inputGroupManager == nil {
@@ -54,6 +55,8 @@ public struct FormItem<Content : View>: View {
         validator?.$message
             .assign(to: \.message, on: viewModel)
             .store(in: &cancellables)
+        
+        validatorId = validator?.id
     }
     
     public init(
@@ -103,14 +106,28 @@ public struct FormItem<Content : View>: View {
         .padding(.bottom, bottomPadding)
         .environment(\.inputStatus, viewModel.message?.status)
         .onReceive(viewModel.$message) { message in
-            inputGroupManager?.message = message
+            if let id = validatorId {
+                inputGroupManager?.messages[id] = message
+            }
+        }
+        .onDisappear {
+            if let id = validatorId {
+                inputGroupManager?.messages.removeValue(forKey: id)
+            }
         }
     }
 }
 
-internal struct ValidateMessage {
+internal struct ValidateMessage: Equatable {
+    let date: Date
     let text: String
     let status: InputStatus
+    
+    init(text: String, status: InputStatus) {
+        self.date = .now
+        self.text = text
+        self.status = status
+    }
 }
 
 public enum InputStatus {

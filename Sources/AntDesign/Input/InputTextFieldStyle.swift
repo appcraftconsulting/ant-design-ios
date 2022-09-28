@@ -7,23 +7,58 @@
 
 import SwiftUI
 
-public struct InputTextFieldStyle: TextFieldStyle {
+public struct InputTextFieldStyle<PrefixView : View, SuffixView : View>: TextFieldStyle {
     @Environment(\.componentSize) internal var size: ComponentSize
     @Environment(\.inputStatus) internal var inputStatus: InputStatus?
     @FocusState var isFocused: Bool
     
-    private let systemName: String?
     private let isHovered: Bool
     private let status: InputStatus?
+    private let prefix: PrefixView
+    private let suffix: SuffixView
     
     public init(
-        systemName: String? = nil,
         isHovered: Bool = false,
-        status: InputStatus? = nil
+        status: InputStatus? = nil,
+        @ViewBuilder prefix: (() -> PrefixView),
+        @ViewBuilder suffix: (() -> SuffixView)
     ) {
-        self.systemName = systemName
         self.isHovered = isHovered
         self.status = status
+        self.prefix = prefix()
+        self.suffix = suffix()
+    }
+    
+    public init(
+        isHovered: Bool = false,
+        status: InputStatus? = nil,
+        @ViewBuilder prefix: (() -> PrefixView)
+    ) where SuffixView == EmptyView {
+        self.isHovered = isHovered
+        self.status = status
+        self.prefix = prefix()
+        self.suffix = EmptyView()
+    }
+    
+    public init(
+        isHovered: Bool = false,
+        status: InputStatus? = nil,
+        @ViewBuilder suffix: (() -> SuffixView)
+    ) where PrefixView == EmptyView {
+        self.isHovered = isHovered
+        self.status = status
+        self.prefix = EmptyView()
+        self.suffix = suffix()
+    }
+    
+    public init(
+        isHovered: Bool = false,
+        status: InputStatus? = nil
+    ) where PrefixView == EmptyView, SuffixView == EmptyView {
+        self.isHovered = isHovered
+        self.status = status
+        self.prefix = EmptyView()
+        self.suffix = EmptyView()
     }
     
     private var verticalPadding: CGFloat {
@@ -86,14 +121,16 @@ public struct InputTextFieldStyle: TextFieldStyle {
     }
 
     public func _body(configuration: TextField<Self._Label>) -> some View {
-        HStack {
-            if let systemName = systemName {
-                Image(systemName: systemName)
-            }
+        HStack(spacing: 4) {
+            prefix
+                .frame(width: Preferences.fontSizeBase, height: Preferences.fontSizeBase)
             
             configuration
                 .textFieldStyle(.plain)
                 .focused($isFocused)
+            
+            suffix
+                .frame(width: Preferences.fontSizeBase, height: Preferences.fontSizeBase)
         }
         .font(.system(size: Preferences.fontSizeBase))
         .foregroundColor(Preferences.inputColor)

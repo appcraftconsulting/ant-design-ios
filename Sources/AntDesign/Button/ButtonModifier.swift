@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ButtonModifier: ViewModifier {
     @Environment(\.componentSize) internal var size: ComponentSize
-    @Environment(\.groupPosition) internal var groupPosition: GroupPosition
 
     @Environment(\.isEnabled) internal var isEnabled: Bool
     
@@ -133,19 +132,6 @@ struct ButtonModifier: ViewModifier {
         }
     }
     
-    private var corners: UIRectCorner {
-        switch groupPosition {
-        case .first:
-            return [.topLeft, .bottomLeft]
-        case .last:
-            return [.topRight, .bottomRight]
-        case .middle:
-            return []
-        case .alone:
-            return .allCorners
-        }
-    }
-    
     private func outlineColor(isDanger: Bool) -> Color? {
         guard (type == .primary || type == .default || type == .dashed) && !isLoading else {
             return nil
@@ -173,19 +159,19 @@ struct ButtonModifier: ViewModifier {
             .frame(maxWidth: isBlock ? .infinity : nil)
             .frame(width: width, height: height)
             .background {
-                RoundedRectangle(corners: corners, cornerRadius: cornerRadius)
+                RoundedRectangle(cornerRadius: cornerRadius)
                     .fill(color(from: attributes(isDanger: isDanger).backgroundColor, isPressed: isPressed))
                     .modifier(ShadowModifier(shadow: backgroundShadow(isPressed: isPressed)))
             }
             .background {
                 if let outlineColor = outlineColor(isDanger: isDanger) {
                     ZStack {
-                        RoundedRectangle(corners: corners, cornerRadius: cornerRadius + abs(outlinePadding))
+                        RoundedRectangle(cornerRadius: cornerRadius + abs(outlinePadding))
                             .fill(outlineColor)
                             .padding(outlinePadding)
                             .opacity(outlineOpacity)
 
-                        RoundedRectangle(corners: corners, cornerRadius: cornerRadius)
+                        RoundedRectangle(cornerRadius: cornerRadius)
                             .fill(Color.white)
                             .blendMode(.destinationOut)
                     }
@@ -194,7 +180,7 @@ struct ButtonModifier: ViewModifier {
             }
             .overlay {
                 if let borderColor = attributes(isDanger: isDanger).borderColor, let borderStyle = attributes(isDanger: isDanger).borderStyle {
-                    RoundedRectangle(corners: corners, cornerRadius: cornerRadius)
+                    RoundedRectangle(cornerRadius: cornerRadius)
                         .stroke(
                             color(from: borderColor, isPressed: isPressed),
                             style: .init(lineWidth: Preferences.btnBorderWidth, dash: borderStyle.dash)

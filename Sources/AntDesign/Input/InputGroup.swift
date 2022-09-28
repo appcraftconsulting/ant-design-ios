@@ -16,12 +16,12 @@ public struct InputGroup<Content>: View where Content : View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             HStack {
                 content.environment(\.inputGroupManager, manager)
             }
             
-            if let message = manager.message {
+            if let message = manager.mostRecentMessage {
                 Text(message.text)
                     .modifier(ExplainModifier(status: message.status))
             }

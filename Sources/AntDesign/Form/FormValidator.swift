@@ -75,19 +75,18 @@ public class FormValidator<T: Equatable>: ObservableObject {
         }
     }
     
-    public var rules: [Rule]
+    internal let id: String
     
     @Published public var input: T
     @Published public var output: T?
     @Published internal var message: ValidateMessage?
         
-    public init(initialValue: T, rules: [Rule] = []) {
+    public init(initialValue: T, id: String = UUID().uuidString, rules: [Rule] = []) {
+        self.id = id
         self.input = initialValue
-        self.rules = rules
                 
         $input
-            .removeDuplicates()
-            .dropFirst(1)
+            .drop { $0 == initialValue }
             .map { value -> ValidateMessage? in
                 for rule in rules {
                     if rule.required == true {
