@@ -78,7 +78,7 @@ public class FormValidator<T: Equatable>: ObservableObject {
     internal let id: String
     
     @Published public var input: T
-    @Published public var output: T?
+    @Published public var isValid: Bool = false
     @Published internal var message: ValidateMessage?
         
     public init(initialValue: T, id: String = UUID().uuidString, rules: [Rule] = []) {
@@ -102,5 +102,16 @@ public class FormValidator<T: Equatable>: ObservableObject {
                 return nil
             }
             .assign(to: &$message)
+        
+        $message
+            .dropFirst()
+            .map { $0?.status != .error }
+            .assign(to: &$isValid)
+        
+        if rules.contains(where: { $0.required == true }) {
+            isValid = false
+        } else {
+            isValid = true
+        }
     }
 }

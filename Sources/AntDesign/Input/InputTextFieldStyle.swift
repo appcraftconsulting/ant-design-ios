@@ -10,18 +10,20 @@ import SwiftUI
 public struct InputTextFieldStyle<PrefixView : View, SuffixView : View>: TextFieldStyle {
     @Environment(\.componentSize) internal var size: ComponentSize
     @Environment(\.inputStatus) internal var inputStatus: InputStatus?
+    @Environment(\.isEnabled) internal var isEnabled: Bool
     @FocusState var isFocused: Bool
     
     private let isHovered: Bool
     private let status: InputStatus?
     private let prefix: PrefixView
     private let suffix: SuffixView
+    private let inputAffixMargin: CGFloat = 4
     
     public init(
         isHovered: Bool = false,
         status: InputStatus? = nil,
-        @ViewBuilder prefix: (() -> PrefixView),
-        @ViewBuilder suffix: (() -> SuffixView)
+        @ViewBuilder prefix: (() -> PrefixView) = { EmptyView() },
+        @ViewBuilder suffix: (() -> SuffixView) = { EmptyView() }
     ) {
         self.isHovered = isHovered
         self.status = status
@@ -121,9 +123,10 @@ public struct InputTextFieldStyle<PrefixView : View, SuffixView : View>: TextFie
     }
 
     public func _body(configuration: TextField<Self._Label>) -> some View {
-        HStack(spacing: 4) {
+        HStack(spacing: 0) {
             prefix
                 .frame(width: Preferences.fontSizeBase, height: Preferences.fontSizeBase)
+                .padding(.trailing, inputAffixMargin)
             
             configuration
                 .textFieldStyle(.plain)
@@ -131,12 +134,14 @@ public struct InputTextFieldStyle<PrefixView : View, SuffixView : View>: TextFie
             
             suffix
                 .frame(width: Preferences.fontSizeBase, height: Preferences.fontSizeBase)
+                .padding(.leading, inputAffixMargin)
         }
         .font(.system(size: Preferences.fontSizeBase))
-        .foregroundColor(Preferences.inputColor)
+        .foregroundColor(isEnabled ? Preferences.inputColor : Preferences.inputDisabledColor)
         .padding(.vertical, verticalPadding)
         .padding(.horizontal, horizontalPadding)
         .frame(height: height)
+        .background(isEnabled ? Preferences.inputBg : Preferences.inputDisabledBg)
         .background {
             Group {
                 if isFocused {

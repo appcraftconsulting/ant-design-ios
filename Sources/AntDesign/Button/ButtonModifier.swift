@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ButtonModifier: ViewModifier {
     @Environment(\.componentSize) internal var size: ComponentSize
-
     @Environment(\.isEnabled) internal var isEnabled: Bool
     
     @State private var isHovered: Bool = false
