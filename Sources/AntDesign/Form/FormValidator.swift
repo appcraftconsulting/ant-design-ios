@@ -76,13 +76,26 @@ public class FormValidator<T: Equatable>: ObservableObject {
     }
     
     internal let id: String
+    private let rules: [Rule]
     
-    @Published public var input: T
+    @Published public var input: T {
+        didSet {
+            if let newText = input as? String,
+               let oldText = oldValue as? String,
+               let len = rules.compactMap(\.len).first,
+               newText.count > len,
+               oldText.count <= len {
+                input = oldValue
+            }
+        }
+    }
+    
     @Published public var isValid: Bool = false
     @Published internal var message: ValidateMessage?
         
     public init(initialValue: T, id: String = UUID().uuidString, rules: [Rule] = []) {
         self.id = id
+        self.rules = rules
         self.input = initialValue
                 
         $input
