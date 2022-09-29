@@ -142,7 +142,7 @@ public struct InputTextFieldStyle<PrefixView : View, SuffixView : View>: TextFie
         .padding(.horizontal, horizontalPadding)
         .frame(height: height)
         .background(isEnabled ? Preferences.inputBg : Preferences.inputDisabledBg)
-        .background {
+        .overlay {
             Group {
                 if isFocused {
                     RoundedRectangle(cornerRadius: Preferences.borderRadiusBase)
