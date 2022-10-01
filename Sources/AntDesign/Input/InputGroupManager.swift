@@ -10,15 +10,7 @@ import Foundation
 
 public class InputGroupManager: ObservableObject {
     @Published internal var messages = [String : ValidateMessage?]()
-    private var cancellables = Set<AnyCancellable>()
-    
-    init() {
-        $messages
-            .print("InputGroupManager | messages")
-            .sink { _ in }
-            .store(in: &cancellables)
-    }
-    
+
     var mostRecentMessage: ValidateMessage? {
         messages
             .values
