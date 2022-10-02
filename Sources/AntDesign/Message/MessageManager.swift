@@ -19,6 +19,8 @@ internal final class MessageManager: ObservableObject {
         generator.prepare()
     }
     
+    internal static let shared = MessageManager()
+
     internal func presentMessage(with id: String, type: MessageType, text: String, duration: TimeInterval?, key: String) {
         if let index = messages.firstIndex(where: { $0.key == key }) {
             timers[key]?.invalidate()
@@ -30,12 +32,10 @@ internal final class MessageManager: ObservableObject {
         }
         
         if let duration = duration {
-            let timer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { [weak self] _ in
+            timers[key] = .scheduledTimer(withTimeInterval: duration, repeats: false) { [weak self] _ in
                 self?.messages.removeAll(where: { $0.key == key })
                 self?.timers.removeValue(forKey: key)
             }
-            
-            timers[key] = timer
         }
         
         switch type {

@@ -26,6 +26,6 @@ internal struct PrepareMessageModifier: ViewModifier {
 public extension View {
     func prepareMessage() -> some View {
         modifier(PrepareMessageModifier())
-            .environmentObject(MessageManager())
+            .environmentObject(MessageManager.shared)
     }
 }

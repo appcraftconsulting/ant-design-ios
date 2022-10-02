@@ -35,7 +35,9 @@ internal struct MessageModifier: ViewModifier {
                 }
             }
             .onReceive(manager.hasMessage(with: id)) { hasMessage in
-                isPresented = hasMessage
+                if isPresented != hasMessage {
+                    isPresented = hasMessage
+                }
             }
             .onDisappear {
                 manager.destroyMessage(with: id)
