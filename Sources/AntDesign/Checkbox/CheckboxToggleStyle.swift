@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-internal struct CheckboxToggleStyle: ToggleStyle {
+public struct CheckboxToggleStyle: ToggleStyle {
     func isIndeterminate(configuration: Configuration) -> Bool {
         if #available(iOS 16.0, *) {
             return configuration.isMixed
@@ -16,7 +16,9 @@ internal struct CheckboxToggleStyle: ToggleStyle {
         }
     }
     
-    func makeBody(configuration: Configuration) -> some View {
+    public init() { }
+    
+    public func makeBody(configuration: Configuration) -> some View {
         Button {
             configuration.isOn.toggle()
         } label: {
@@ -73,7 +75,7 @@ fileprivate struct CheckboxButtonStyle: SwiftUI.ButtonStyle {
     }
     
     func makeBody(configuration: Configuration) -> some View {
-        return HStack {
+        return HStack(spacing: Preferences.paddingXss) {
             ZStack {
                 RoundedRectangle(cornerRadius: Preferences.checkboxBorderRadius)
                     .fill(fillColor)

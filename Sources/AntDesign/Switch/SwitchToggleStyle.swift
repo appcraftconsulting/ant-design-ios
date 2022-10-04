@@ -90,7 +90,7 @@ public struct SwitchToggleStyle: SwiftUI.ToggleStyle {
     public func makeBody(configuration: Configuration) -> some View {
         var isOn: Bool { configuration.isOn }
         
-        return HStack {
+        return HStack(spacing: Preferences.paddingXs) {
             configuration.label
                 .frame(maxWidth: .infinity, alignment: .leading)
             
