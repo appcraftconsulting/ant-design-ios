@@ -204,6 +204,8 @@ public struct Alert: View {
         withAnimation {
             isClosed = true
         }
+        
+        onClose?()
     }
 }
 

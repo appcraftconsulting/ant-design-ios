@@ -205,6 +205,7 @@ public struct SwitchToggleStyle: SwiftUI.ToggleStyle {
                 }
             }
             .compositingGroup()
+            .animation(.easeInOut(duration: 0.2), value: isOn)
             .animation(.easeInOut(duration: 0.2), value: isPressed)
             .opacity(isEnabled ? 1 : Preferences.switchDisabledOpacity)
         }

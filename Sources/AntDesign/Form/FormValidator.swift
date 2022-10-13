@@ -76,39 +76,63 @@ public class FormValidator<T: Equatable>: ObservableObject {
     }
     
     internal let id: String
+    
     private let rules: [Rule]
     
-    @Published public var input: T {
-        didSet {
-            if let newText = input as? String,
-               let oldText = oldValue as? String,
-               let len = rules.compactMap(\.len).first,
-               newText.count > len,
-               oldText.count <= len {
-                input = oldValue
-            }
-        }
-    }
-    
-    @Published public var isValid: Bool = false
+    @Published public var input: T
+    @Published public var isValid: Bool
     @Published internal var message: ValidateMessage?
         
-    public init(initialValue: T, id: String = UUID().uuidString, rules: [Rule] = []) {
+    public init(initialValue: T, id: String = UUID().uuidString, label: String = "${label}", rules: [Rule] = []) {
         self.id = id
         self.rules = rules
         self.input = initialValue
                 
+        if rules.contains(where: { $0.required == true }) {
+            isValid = false
+        } else {
+            isValid = true
+        }
+        
         $input
             .drop { $0 == initialValue }
             .map { value -> ValidateMessage? in
+                var defaultMessage: String?
+                
                 for rule in rules {
-                    if rule.required == true {
-                        let defaultMessage = String(format: "%@ is required!")
+                    if let required = rule.required, required {
                         if value == Optional.none {
-                            return .init(text: rule.message ?? defaultMessage, status: .error)
+                            defaultMessage = String(format: "form_defaultValidateMessages_required", label)
                         } else if let string = value as? String, string.isEmpty {
-                            return .init(text: rule.message ?? defaultMessage, status: .error)
+                            defaultMessage = String(format: "form_defaultValidateMessages_required", label)
                         }
+                    } else if let min = rule.min, let max = rule.max, let string = value as? String {
+                        if string.count < min && string.count > max {
+                            defaultMessage = String(format: "form_defaultValidateMessages_string_range", label, min, max)
+                        }
+                    } else if let min = rule.min, let string = value as? String {
+                        if string.count < min {
+                            defaultMessage = String(format: "form_defaultValidateMessages_string_min", label, min)
+                        }
+                    }else if let max = rule.max, let string = value as? String {
+                        if string.count > max {
+                            defaultMessage = String(format: "form_defaultValidateMessages_string_max", label, max)
+                        }
+                    } else if let len = rule.len, let string = value as? String {
+                        if string.count != len {
+                            defaultMessage = String(format: "form_defaultValidateMessages_string_len", label, len)
+                        }
+                    } else if let pattern = rule.pattern, let string = value as? String {
+                        if string.range(of: pattern, options: .regularExpression) == nil {
+                            defaultMessage = String(format: "form_defaultValidateMessages_pattern_mismatch", label, pattern)
+                        }
+                    }
+                    
+                    if let defaultMessage {
+                        return .init(
+                            text: rule.message ?? defaultMessage,
+                            status: rule.warningOnly ? .warning : .error
+                        )
                     }
                 }
                 
@@ -120,11 +144,5 @@ public class FormValidator<T: Equatable>: ObservableObject {
             .dropFirst()
             .map { $0?.status != .error }
             .assign(to: &$isValid)
-        
-        if rules.contains(where: { $0.required == true }) {
-            isValid = false
-        } else {
-            isValid = true
-        }
     }
 }

@@ -21,6 +21,8 @@ public extension Color {
         case geekblue
         case purple
         case magenta
+        
+        case incarnat
     }
     
     enum PreferencesColor: String {

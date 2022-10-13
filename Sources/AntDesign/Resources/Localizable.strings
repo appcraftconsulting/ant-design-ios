@@ -7,3 +7,17 @@
 */
 
 "form_optional" = "(optional)";
+
+"form_defaultValidateMessages_default" = "Field validation error for %@";
+
+"form_defaultValidateMessages_required" = "Please enter %@";
+
+"form_defaultValidateMessages_pattern_mismatch" = "%@ does not match the pattern %@";
+
+"form_defaultValidateMessages_string_len" = "%@ must be %d characters";
+
+"form_defaultValidateMessages_string_min" = "%@ must be at least %d characters";
+
+"form_defaultValidateMessages_string_max" = "%@ must be up to %d characters";
+
+"form_defaultValidateMessages_string_range" = "%@ must be between %d-%d characters";

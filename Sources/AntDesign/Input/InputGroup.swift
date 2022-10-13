@@ -18,7 +18,8 @@ public struct InputGroup<Content>: View where Content : View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
-                content.environment(\.inputGroupManager, manager)
+                content
+                    .environment(\.inputGroupManager, manager)
             }
             
             if let message = manager.mostRecentMessage {
