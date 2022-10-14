@@ -86,10 +86,8 @@ public struct CardGroupBoxStyle: GroupBoxStyle {
                 Spacer(minLength: 0)
             }
         }
-        .background {
-            RoundedRectangle(cornerRadius: Preferences.cardRadius)
-                .fill(Preferences.cardBackground)
-        }
+        .clipShape(RoundedRectangle(cornerRadius: Preferences.cardRadius))
+        .background(Preferences.cardBackground)
         .overlay {
             if isBordered {
                 RoundedRectangle(cornerRadius: Preferences.cardRadius)
