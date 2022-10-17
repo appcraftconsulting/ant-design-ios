@@ -239,6 +239,7 @@ struct ButtonModifier: ViewModifier {
                     if layout.hasTitle {
                         configuration.title
                             .modifier(ShadowModifier(shadow: titleShadow))
+                            .fixedSize(horizontal: true, vertical: false)
                     }
                 }
             }
