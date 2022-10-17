@@ -31,38 +31,6 @@ public struct InputTextFieldStyle<PrefixView : View, SuffixView : View>: TextFie
         self.suffix = suffix()
     }
     
-    public init(
-        isHovered: Bool = false,
-        status: InputStatus? = nil,
-        @ViewBuilder prefix: (() -> PrefixView)
-    ) where SuffixView == EmptyView {
-        self.isHovered = isHovered
-        self.status = status
-        self.prefix = prefix()
-        self.suffix = EmptyView()
-    }
-    
-    public init(
-        isHovered: Bool = false,
-        status: InputStatus? = nil,
-        @ViewBuilder suffix: (() -> SuffixView)
-    ) where PrefixView == EmptyView {
-        self.isHovered = isHovered
-        self.status = status
-        self.prefix = EmptyView()
-        self.suffix = suffix()
-    }
-    
-    public init(
-        isHovered: Bool = false,
-        status: InputStatus? = nil
-    ) where PrefixView == EmptyView, SuffixView == EmptyView {
-        self.isHovered = isHovered
-        self.status = status
-        self.prefix = EmptyView()
-        self.suffix = EmptyView()
-    }
-    
     private var verticalPadding: CGFloat {
         switch size {
         case .small:
