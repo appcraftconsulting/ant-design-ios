@@ -12,7 +12,7 @@ import SwiftUI
 /// When To Use
 /// - When you need to show alert messages to users.
 /// - When you need a persistent static container which is closable by user actions.
-public struct Alert: View {
+public struct Alert<ActionsView : View>: View {
     public enum `Type` {
         case success, info, warning, error
         
@@ -89,6 +89,7 @@ public struct Alert: View {
     internal let showIcon: Bool
     internal let onClose: (() -> Void)?
     internal let closeText: String?
+    internal let action: ActionsView
     
     internal let isError: Bool
     
@@ -164,6 +165,8 @@ public struct Alert: View {
                     
                     Spacer()
                     
+                    action
+                    
                     if isClosable {
                         Button(action: close) {
                             Group {
@@ -218,6 +221,7 @@ public extension Alert {
     ///   - icon: Custom icon, effective when `showIcon` is true
     ///   - showIcon: Whether to show icon
     ///   - isBanner: Whether to show as banner
+    ///   - action: The action of Alert
     ///   - isClosable: Whether Alert can be closed
     ///   - closeIcon: Custom close icon
     ///   - closeText: Close text to show
@@ -229,6 +233,7 @@ public extension Alert {
         icon: Icon? = nil,
         showIcon: Bool? = nil,
         isBanner: Bool = false,
+        action: () -> ActionsView = { EmptyView() },
         isClosable: Bool = false,
         closeIcon: Icon = .outlined(.close),
         closeText: String? = nil,
@@ -240,16 +245,18 @@ public extension Alert {
         self.icon = icon
         self.showIcon = showIcon ?? isBanner ? true : false
         self.isBanner = isBanner
+        self.action = action()
         self.isClosable = closeText != nil ? true : isClosable
         self.closeIcon = closeIcon
         self.closeText = closeText
         self.onClose = onClose
         self.isError = false
     }
+
     
     /// ErrorBoundary Component for making error handling easier in Swift
     /// - Parameter error: Custom error to show
-    init(error: Error) {
+    init(error: Error) where ActionsView == EmptyView {
         let nsError = error as NSError
         let message = "Error: \(nsError.code)"
         let description = nsError.debugDescription
@@ -265,6 +272,7 @@ public extension Alert {
             showIcon: false,
             onClose: nil,
             closeText: nil,
+            action: EmptyView(),
             isError: true
         )
     }
