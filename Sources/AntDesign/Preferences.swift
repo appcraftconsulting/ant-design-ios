@@ -222,6 +222,15 @@ public enum Preferences {
     public static var switchSmInnerMarginMin = ceil(switchHeight * 0.3)
     public static var switchSmInnerMarginMax = ceil(switchHeight * 1.1)
     
+    // Collapse
+    // ---
+    public static var collapseHeaderPadding: EdgeInsets = .init(top: paddingSm, leading: paddingMd, bottom: paddingSm, trailing: paddingMd)
+    public static var collapseHeaderPaddingExtra: CGFloat = 40
+    public static var collapseHeaderBg = backgroundColorLight
+    public static var collapseContentPadding = paddingMd
+    public static var collapseContentBg = componentBackground
+    public static var collapseHeaderArrowLeft: CGFloat = 16
+    
     // Message
     // ---
     public static var messageNoticeContentPadding: EdgeInsets = .init(top: 10, leading: 16, bottom: 10, trailing: 16)
@@ -287,6 +296,9 @@ public enum Preferences {
     public static var cardRadius = borderRadiusBase
     public static var cardHeadTabsMarginBottom: CGFloat = -17
     public static var cardHeadExtraColor = textColor
+    
+    // CollapsePanel
+    public static var collapsePanelBorderRadius = borderRadiusBase
     
     // Form
     // ---
