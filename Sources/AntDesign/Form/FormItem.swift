@@ -19,10 +19,10 @@ public struct FormItem<Content : View>: View {
             case required
         }
         
-        let text: String
+        let text: LocalizedStringKey
         let requiredMark: RequiredMark?
         
-        public init(text: String, requiredMark: RequiredMark?) {
+        public init(text: LocalizedStringKey, requiredMark: RequiredMark?) {
             self.text = text
             self.requiredMark = requiredMark
         }

@@ -61,7 +61,7 @@ public struct CardGroupBoxStyle: GroupBoxStyle {
     
     public func makeBody(configuration: Configuration) -> some View {
         VStack(spacing: 0) {
-            HStack {
+            HStack(spacing: 0) {
                 configuration.label
                     .font(.system(size: cardHeadFontSize, weight: .semibold))
                     .padding(.vertical, cardHeadPadding)
@@ -69,7 +69,7 @@ public struct CardGroupBoxStyle: GroupBoxStyle {
                     .frame(height: cardHeadHeight)
                     .foregroundColor(Preferences.cardHeadColor)
                 
-                Spacer()
+                Spacer(minLength: 0)
             }
             .background(isInner ? Preferences.backgroundColorBase : Preferences.cardHeadBackground)
 
