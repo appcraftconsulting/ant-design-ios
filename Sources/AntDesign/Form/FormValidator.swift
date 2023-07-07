@@ -101,9 +101,7 @@ public class FormValidator<T: Equatable>: ObservableObject {
                 
                 for rule in rules {
                     if let required = rule.required, required {
-                        if value == Optional.none {
-                            defaultMessage = String(format: "form_defaultValidateMessages_required", label)
-                        } else if let string = value as? String, string.isEmpty {
+                        if let string = value as? String, string.isEmpty {
                             defaultMessage = String(format: "form_defaultValidateMessages_required", label)
                         }
                     } else if let min = rule.min, let max = rule.max, let string = value as? String {

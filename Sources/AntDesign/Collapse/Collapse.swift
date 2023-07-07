@@ -34,7 +34,7 @@ public struct Collapse<Content: Sequence>: View where Content.Element: View {
         VStack(spacing: 0) {
             ForEach(sequence: content) { index, view in
                 view
-                if let array = Array(content), array.indices.last != index {
+                if Array(content).indices.last != index {
                     Preferences.borderColorBase
                         .frame(height: Preferences.borderWidthBase)
                 }
